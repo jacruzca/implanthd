@@ -1,22 +1,23 @@
 import * as React from 'react';
+import {Switch, Route} from 'react-router-dom'
 import './App.css';
-
-const logo = require('./logo.svg');
+import {LoginPage} from './user/pages/LoginPage';
+import {HomePage} from './home/pages/HomePage';
+import {HOME, LOGIN} from './constants/routes';
 
 class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+
+    render() {
+
+        return (
+            <div className="App">
+                <Switch>
+                    <Route exact path={HOME} component={HomePage}/>
+                    <Route exact path={LOGIN} component={LoginPage}/>
+                </Switch>
+            </div>
+        );
+    }
 }
 
 export default App;

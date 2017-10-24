@@ -5,6 +5,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Table of Contents
 
+- [Updating Semantic UI](#updating-semantic-ui)
 - [Updating to New Releases](#updating-to-new-releases)
 - [Sending Feedback](#sending-feedback)
 - [Folder Structure](#folder-structure)
@@ -94,6 +95,22 @@ You can find the most recent version of this guide [here](https://github.com/fac
   - [`npm run build` fails to minify](#npm-run-build-fails-to-minify)
   - [Moment.js locales are missing](#momentjs-locales-are-missing)
 - [Something Missing?](#something-missing)
+
+## Updating Semantic UI
+
+Generally you make changes in `theme.config`. After making changes regenerate css by executing:
+
+```
+cd src/semantic
+gulp build
+```
+
+Or if you want to watch for changes
+
+```
+cd src/semantic
+gulp watch
+```
 
 ## Updating to New Releases
 
