@@ -18,12 +18,31 @@ const store = createStore<StoreState>(enthusiasm, {
     languageName: 'TypeScript',
 });
 
+const rootEl = document.getElementById('root') as HTMLElement;
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
             <App/>
         </BrowserRouter>
     </Provider>,
-    document.getElementById('root') as HTMLElement,
+    rootEl,
 );
 registerServiceWorker();
+
+// Hot Module Replacement API
+declare let module: {hot: any};
+
+// Are we in development mode?
+if (module.hot) {
+    module.hot.accept('./App', () => {
+        const NextApp = require('./App').default;
+        ReactDOM.render(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <NextApp/>
+                </BrowserRouter>
+            </Provider>,
+            rootEl,
+        );
+    });
+}

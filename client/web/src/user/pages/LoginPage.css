@@ -1,0 +1,12 @@
+.Background {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: red;
+    background-image: url('../../resources/images/login_background.jpg');
+}
+
+.White{
+    color: white !important;
+}
