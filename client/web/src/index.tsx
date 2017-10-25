@@ -1,36 +1,29 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
-
-import {createStore} from 'redux';
-import {enthusiasm} from './reducers/index';
-import {StoreState} from './types/index';
+import { Provider } from 'react-redux';
+import { configureStore } from './business/Store';
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import './semantic/dist/semantic.min.css';
-// import Hello from './containers/Hello';
-import App from './App';
-import {Provider} from 'react-redux';
 
-const store = createStore<StoreState>(enthusiasm, {
-    enthusiasmLevel: 1,
-    languageName: 'TypeScript',
-});
+import App from './App';
+
+const store = configureStore();
 
 const rootEl = document.getElementById('root') as HTMLElement;
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
+        <App/>
     </Provider>,
     rootEl,
 );
+
 registerServiceWorker();
 
 // Hot Module Replacement API
-declare let module: {hot: any};
+// tslint:disable-next-line
+declare let module: { hot: any };
 
 // Are we in development mode?
 if (module.hot) {
@@ -38,9 +31,7 @@ if (module.hot) {
         const NextApp = require('./App').default;
         ReactDOM.render(
             <Provider store={store}>
-                <BrowserRouter>
-                    <NextApp/>
-                </BrowserRouter>
+                <NextApp/>
             </Provider>,
             rootEl,
         );

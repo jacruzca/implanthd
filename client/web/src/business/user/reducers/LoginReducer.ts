@@ -1,14 +1,14 @@
-import {LoginAction} from '../actions/LoginActions';
-import {LOGIN_CHECK} from '../types/LoginTypes';
+import { LoginAction } from '../actions/LoginActions';
+import { LOGIN_CHECK, LoginStoreState } from '../types/LoginTypes';
 
-export function login(state: any, action: LoginAction): any {
+const initialState: LoginStoreState = {
+    isLoading: true,
+};
+
+export function login(state: LoginStoreState = initialState, action: LoginAction): LoginStoreState {
     switch (action.type) {
         case LOGIN_CHECK:
-            return {
-                ...state, login: {
-                    isLoading: true,
-                },
-            };
+            return {isLoading: true};
         default:
             return state;
     }

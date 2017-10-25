@@ -4,7 +4,7 @@ export interface Props {
     name: string;
 }
 
-export class HomePage extends React.Component<Props, any> {
+export class HomePage extends React.Component<Props, {}> {
 
     render() {
         return (
