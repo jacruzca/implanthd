@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as _ from 'lodash';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import LoginComponent from '../components/LoginComponent';
 
@@ -14,6 +15,7 @@ interface LoginFormContainerDataProps {
 }
 
 interface LoginFormContainerStateProps extends LoginStoreState {
+    errors?: Array<string>;
 }
 
 interface LoginFormContainerDispatchProps {
@@ -37,15 +39,35 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
     }
 
     render() {
-        return <LoginComponent handleSubmit={this.props.handleSubmit(values => this._submit(values))}/>;
+
+        const {handleSubmit, errors, isLoading} = this.props;
+
+        const formProps = {
+            errors,
+            submitting: isLoading,
+        };
+
+        return <LoginComponent {...formProps} handleSubmit={handleSubmit(values => this._submit(values))}/>;
     }
 }
 
-export function mapStateToProps({login}: RootState): LoginFormContainerStateProps {
+const validate = (values: LoginFormContainerDataProps): any => {
+    const {email, password} = values;
+    let errors: LoginFormContainerDataProps = {};
+    if (!email) {
+        errors.email = 'El correo electrónico es requerido';
+    }
+    if (!password) {
+        errors.password = 'La contraseña es requerida';
+    }
+    return errors;
+};
 
+export function mapStateToProps({login, form}: RootState): LoginFormContainerStateProps {
     const {isLoading} = login;
 
     return {
+        errors: form.login && form.login.syncErrors ? _.values(form.login.syncErrors) : [],
         isLoading,
     };
 }
@@ -61,6 +83,7 @@ export function mapDispatchToProps(dispatch: Dispatch<LoginAction>): LoginFormCo
 
 const FormComponent = reduxForm({
     form: 'login',
+    validate,
 })(LoginFormContainer);
 
 export default (connect(mapStateToProps, mapDispatchToProps)(FormComponent as any));

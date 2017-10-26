@@ -10,11 +10,21 @@ import { Checkbox, Input } from '../../core/components/FormComponents';
 const logo = require('../../resources/images/logo.png');
 
 interface LoginComponentProps {
-    email?: string;
-    password?: string;
-    rememberPassword?: boolean;
+    errors?: Array<string>; // global errors of the form
     handleSubmit: (values: any) => void;
+    submitting?: boolean;
 }
+
+const showErrors = (errors?: Array<string>): JSX.Element | void => {
+    if (errors && errors.length > 0) {
+        return (
+            <Message color="red">
+                <Message.Header>Hay algunos errores</Message.Header>
+                <Message.List items={errors}/>
+            </Message>
+        );
+    }
+};
 
 const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
     return (
@@ -70,9 +80,13 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
                                 fluid={true}
                                 type="submit"
                                 size="large"
+                                loading={props.submitting}
+                                disabled={props.submitting}
                             >
                                 Login
                             </Button>
+
+                            {showErrors(props.errors)}
 
                             <Message>
                                 Olvidaste tu contraseña? <Link to={REMEMBER_PASSWORD}>Recordar ahora</Link>
