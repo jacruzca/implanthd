@@ -1,19 +1,22 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { Field } from 'redux-form';
 import { Icon, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 
 import './LoginComponent.css';
 import { REMEMBER_PASSWORD, SIGN_UP } from '../../constants/routes';
+import { Checkbox, Input } from '../../core/components/FormComponents';
 
 const logo = require('../../resources/images/logo.png');
 
-export interface Props {
-    name: string;
-    test?: string;
-    loginCheck: (email: string, password: string, remember: boolean) => any;
+interface LoginComponentProps {
+    email?: string;
+    password?: string;
+    rememberPassword?: boolean;
+    handleSubmit: (values: any) => void;
 }
 
-export default function LoginComponent(props: Props) {
+const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
     return (
         <div className="Background">
             <Grid
@@ -23,32 +26,50 @@ export default function LoginComponent(props: Props) {
             >
                 <Grid.Column style={{maxWidth: 450}}>
                     <Image src={logo} height={120} centered={true}/>
-                    <Form size="large" className="attached fluid segment">
+                    <Form size="large" className="attached fluid segment" onSubmit={props.handleSubmit}>
                         <Segment stacked={true}>
 
                             <Header as="h2" textAlign="center">
                                 Inicia sesión
                             </Header>
 
-                            <Form.Input
-                                fluid={true}
-                                icon="user"
-                                iconPosition="left"
-                                placeholder="Correo electrónico"
+                            <Field
+                                name="email"
+                                component={Input}
+                                {...{
+                                    fluid: true,
+                                    placeholder: 'Correo electrónico',
+                                    icon: 'user',
+                                    iconPosition: 'left',
+                                }}
                             />
-                            <Form.Input
-                                fluid={true}
-                                icon="lock"
-                                iconPosition="left"
-                                placeholder="Contraseña"
-                                type="password"
+
+                            <Field
+                                name="password"
+                                component={Input}
+                                {...{
+                                    fluid: true,
+                                    placeholder: 'Contraseña',
+                                    icon: 'lock',
+                                    type: 'password',
+                                    iconPosition: 'left',
+                                }}
                             />
-                            <Form.Checkbox inline={true} label="Recordar mi sesión"/>
+
+                            <Field
+                                name="rememberPassword"
+                                component={Checkbox}
+                                {...{
+                                    inline: true,
+                                    label: 'Recordar mi sesión',
+                                }}
+                            />
+
                             <Button
                                 primary={true}
                                 fluid={true}
+                                type="submit"
                                 size="large"
-                                onClick={() => props.loginCheck('aaa', 'aaa', true)}
                             >
                                 Login
                             </Button>
@@ -69,4 +90,6 @@ export default function LoginComponent(props: Props) {
             </Grid>
         </div>
     );
-}
+};
+
+export default LoginComponent;

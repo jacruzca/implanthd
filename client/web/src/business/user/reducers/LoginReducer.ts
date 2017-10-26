@@ -2,7 +2,7 @@ import { LoginAction } from '../actions/LoginActions';
 import { LOGIN_CHECK, LoginStoreState } from '../types/LoginTypes';
 
 const initialState: LoginStoreState = {
-    isLoading: true,
+    isLoading: false,
 };
 
 export function login(state: LoginStoreState = initialState, action: LoginAction): LoginStoreState {
