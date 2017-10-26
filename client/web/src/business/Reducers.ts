@@ -5,6 +5,7 @@ import { login } from './user/reducers/LoginReducer';
 
 export interface RootState {
     login: LoginStoreState;
+    form: any;
 }
 
 export default combineReducers<RootState>({
