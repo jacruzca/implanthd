@@ -41,9 +41,11 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
     render() {
 
-        const {handleSubmit, errors, isLoading} = this.props;
+        const {handleSubmit, errors, isLoading, invalid, submitFailed} = this.props;
 
         const formProps = {
+            invalid,
+            submitFailed,
             errors,
             isLoading,
         };

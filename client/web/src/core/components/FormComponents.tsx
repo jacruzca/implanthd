@@ -2,17 +2,17 @@ import * as React from 'react';
 import { CheckboxProps, Form, FormInputProps } from 'semantic-ui-react';
 
 export const Input = (props: FormInputProps) => {
-    const {error} = props.meta;
+    const {touched, error} = props.meta;
     return (
-        <Form.Input {...props} error={error}/>
+        <Form.Input {...props} error={touched && error}/>
     );
 };
 
 export const Checkbox = (props: CheckboxProps) => {
-    const {error} = props.meta;
+    const {touched, error} = props.meta;
     return (
         <Form.Checkbox
-            error={error}
+            error={touched && error}
             {...props.input}
             {...props}
         />

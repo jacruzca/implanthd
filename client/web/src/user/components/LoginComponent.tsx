@@ -13,6 +13,9 @@ interface LoginComponentProps {
     errors?: Array<string>; // global errors of the form
     handleSubmit: (values: any) => void;
     isLoading?: boolean;
+    submitFailed?: boolean;
+    touched?: boolean;
+    invalid?: boolean;
 }
 
 const showErrors = (errors?: Array<string>): JSX.Element | void => {
@@ -86,7 +89,7 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
                                 Login
                             </Button>
 
-                            {showErrors(props.errors)}
+                            {((props.touched && props.invalid) || props.submitFailed) && showErrors(props.errors)}
 
                             <Message>
                                 Olvidaste tu contraseña? <Link to={REMEMBER_PASSWORD}>Recordar ahora</Link>
