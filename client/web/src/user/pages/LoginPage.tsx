@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import * as Forms from '../../constants/forms';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import LoginComponent from '../components/LoginComponent';
 
@@ -44,7 +45,7 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
         const formProps = {
             errors,
-            submitting: isLoading,
+            isLoading,
         };
 
         return <LoginComponent {...formProps} handleSubmit={handleSubmit(values => this._submit(values))}/>;
@@ -66,8 +67,10 @@ const validate = (values: LoginFormContainerDataProps): any => {
 export function mapStateToProps({login, form}: RootState): LoginFormContainerStateProps {
     const {isLoading} = login;
 
+    let loginForm = form[Forms.LOGIN];
+
     return {
-        errors: form.login && form.login.syncErrors ? _.values(form.login.syncErrors) : [],
+        errors: loginForm && loginForm.syncErrors ? _.values(loginForm.syncErrors) : [],
         isLoading,
     };
 }
@@ -82,7 +85,7 @@ export function mapDispatchToProps(dispatch: Dispatch<LoginAction>): LoginFormCo
 }
 
 const FormComponent = reduxForm({
-    form: 'login',
+    form: Forms.LOGIN,
     validate,
 })(LoginFormContainer);
 

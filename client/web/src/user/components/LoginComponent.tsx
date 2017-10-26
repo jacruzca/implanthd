@@ -12,7 +12,7 @@ const logo = require('../../resources/images/logo.png');
 interface LoginComponentProps {
     errors?: Array<string>; // global errors of the form
     handleSubmit: (values: any) => void;
-    submitting?: boolean;
+    isLoading?: boolean;
 }
 
 const showErrors = (errors?: Array<string>): JSX.Element | void => {
@@ -80,8 +80,8 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
                                 fluid={true}
                                 type="submit"
                                 size="large"
-                                loading={props.submitting}
-                                disabled={props.submitting}
+                                loading={props.isLoading}
+                                disabled={props.isLoading}
                             >
                                 Login
                             </Button>
