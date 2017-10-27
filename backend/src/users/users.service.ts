@@ -1,21 +1,33 @@
-import {Model} from 'mongoose';
-import {Component, Inject} from '@nestjs/common';
-import {UserInterface} from './user.interface';
-import {CreateUserDto} from './create-user.dto';
-import {Constants} from '../common/constants';
+import { Model, ValidationError } from 'mongoose';
+import { Component, Inject } from '@nestjs/common';
+import { UserModel } from './user.model';
+import { Constants } from '../common/constants';
+import { AuthSignUpDto } from '../auth/auth.signup.dto';
+import { AlreadyExistsException } from '../common/exceptions/alreadyexists.exception';
 
 @Component()
 export class UsersService {
 
-    constructor(@Inject(Constants.userModelToken) private readonly userModel: Model<UserInterface>) {
+    constructor(@Inject(Constants.userModelToken) private readonly userModel: Model<UserModel>) {
     }
 
-    async create(createUserDto: CreateUserDto): Promise<UserInterface> {
-        const createdUser = new this.userModel(createUserDto);
-        return await createdUser.save();
+    async getByEmail(email: string): Promise<UserModel> {
+        return await this.userModel.findOne({email}).exec();
     }
 
-    async findAll(): Promise<UserInterface[]> {
+    async createSimpleUser(user: AuthSignUpDto): Promise<UserModel> {
+        try {
+            const createdUser = new this.userModel(user);
+            return await createdUser.save();
+        } catch (e) {
+            if (e.name && e.name === 'ValidationError') {
+                throw new AlreadyExistsException(`User ${user.email} already exists`);
+            }
+            throw e;
+        }
+    }
+
+    async findAll(): Promise<UserModel[]> {
         return await this.userModel.find().exec();
     }
 

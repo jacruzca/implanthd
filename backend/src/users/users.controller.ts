@@ -1,8 +1,5 @@
-import {Controller, Get, Post, Body} from '@nestjs/common';
-import {CreateUserDto} from './create-user.dto';
-import {UsersService} from './users.service';
-import {UserInterface} from './user.interface';
-import {ValidationPipe} from '../common/pipes/validation.pipe';
+import { Controller, Get } from '@nestjs/common';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
@@ -14,10 +11,5 @@ export class UsersController {
     @Get()
     findAll() {
         return this.usersService.findAll();
-    }
-
-    @Post()
-    create(@Body('', new ValidationPipe()) createUserDto: CreateUserDto) {
-        this.usersService.create(createUserDto);
     }
 }

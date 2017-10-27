@@ -1,6 +1,6 @@
 import {Document} from 'mongoose';
 
-export interface UserInterface extends Document {
+export interface UserModel extends Document {
     readonly email: string;
     readonly password: string;
 }

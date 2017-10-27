@@ -20,6 +20,7 @@
     "class-validator": "^0.7.3",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.12.3",
+    "mongoose-unique-validator": "^1.0.6",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
     "redis": "^2.7.1",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/mongoose": "^4.7.24",
+    "@types/mongoose-unique-validator": "^1.0.0",
     "@types/node": "^8.0.28",
     "nodemon": "^1.12.1",
     "ts-node": "^3.3.0",
