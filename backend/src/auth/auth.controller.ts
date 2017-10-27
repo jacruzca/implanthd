@@ -7,7 +7,7 @@ import { ErrorDto } from '../common/dto/error.dto';
 import { AuthSignUpDto } from './auth.signup.dto';
 import { AlreadyExistsException } from '../common/exceptions/alreadyexists.exception';
 
-@Controller('auth')
+@Controller('v1p/auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {
     }

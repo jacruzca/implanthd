@@ -1,9 +1,8 @@
 import * as passport from 'passport';
-import {ExtractJwt, Strategy} from 'passport-jwt';
-import {AuthService} from './auth.service';
-import {Component, Inject} from '@nestjs/common';
-import {async} from 'rxjs/scheduler/async';
-import {Constants} from '../common/constants';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { AuthService } from './auth.service';
+import { Component, Inject } from '@nestjs/common';
+import { Constants } from '../common/constants';
 
 @Component()
 export class JwtStrategy extends Strategy {
@@ -21,12 +20,14 @@ export class JwtStrategy extends Strategy {
     }
 
     public async verify(req, payload, done) {
-        console.debug(req);
         const isValid = await this.authService.validateUser(payload);
         if (!isValid) {
-            console.debug(isValid);
-            return done('Unauthorized', false);
+            console.log(`*** INVALID authentication for user: ${payload.email}`);
+            return done(null, false);
         }
+
+        console.log(`Valid authentication for user: ${payload.email}`);
+
         done(null, payload);
     }
 

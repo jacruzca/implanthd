@@ -5,24 +5,29 @@ import { AuthSignInDto } from './auth.signin.dto';
 import { UsersService } from '../users/users.service';
 import { NotFoundException } from '../common/exceptions/notfound.exception';
 import { AuthSignUpDto } from './auth.signup.dto';
-import { AuthSignedDto, Token } from './auth.signed.dto';
+import { AuthSignedDto } from './auth.signed.dto';
+import { UserTokenService } from '../users/user-token.service';
 
 @Component()
 export class AuthService {
 
-    constructor(private readonly usersService: UsersService) {
+    constructor(private readonly usersService: UsersService, private readonly userTokenService: UserTokenService) {
     }
 
     async signIn(credentials: AuthSignInDto): Promise<AuthSignedDto> {
         const expiresIn = credentials.rememberPassword ? 60 * 60 * 24 * 265 : 60 * 60 * 2;
 
         const userModel = await this.usersService.getByEmail(credentials.email);
-        const user = userModel.toObject();
-        if (!user) {
+        if (!userModel) {
             throw new NotFoundException(`User not found ${credentials.email}`);
         }
 
-        const token = await jwt.sign(user, Constants.secretKey, {expiresIn});
+        const user = userModel.toObject();
+
+        const token: string = await jwt.sign(user, Constants.secretKey, {expiresIn});
+
+        await this.userTokenService.createToken({user: userModel, token});
+
         return {
             user,
             token: {
@@ -38,6 +43,9 @@ export class AuthService {
         const user = userModel.toObject();
 
         const token = await jwt.sign(user, Constants.secretKey, {expiresIn});
+
+        await this.userTokenService.createToken({user: userModel, token});
+
         return {
             user,
             token: {
@@ -47,7 +55,8 @@ export class AuthService {
         };
     }
 
-    async validateUser(signedUser): Promise<boolean> {
-        return false;
+    async validateUser(payload: any): Promise<boolean> {
+        const user = await this.usersService.getByEmail(payload.email);
+        return user && user !== null;
     }
 }

@@ -3,6 +3,8 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { usersProviders } from './users.providers';
 import { DatabaseModule } from '../database/database.module';
+import { UserTokenService } from './user-token.service';
+import { userTokenProviders } from './user-token.providers';
 
 @Module({
     modules: [DatabaseModule],
@@ -10,8 +12,10 @@ import { DatabaseModule } from '../database/database.module';
     components: [
         UsersService,
         ...usersProviders,
+        UserTokenService,
+        ...userTokenProviders,
     ],
-    exports: [UsersService],
+    exports: [UsersService, UserTokenService],
 })
 export class UsersModule {
 }
