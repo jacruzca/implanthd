@@ -15,7 +15,7 @@ export class AuthService {
     }
 
     async signIn(credentials: AuthSignInDto): Promise<AuthSignedDto> {
-        const expiresIn = credentials.rememberPassword ? 60 * 60 * 24 * 265 : 60 * 60 * 2;
+        const expiresIn = credentials.rememberPassword ? 60 * 60 * 24 * 265 : 60 * 60 * 24 * 2;
 
         const userModel = await this.usersService.getByEmail(credentials.email);
         if (!userModel) {
@@ -38,7 +38,7 @@ export class AuthService {
     }
 
     async signUp(signUpDto: AuthSignUpDto): Promise<AuthSignedDto> {
-        const expiresIn = 60 * 60 * 2; // 2 days
+        const expiresIn = 60 * 60 * 24 * 2; // 2 days
         const userModel = await this.usersService.createSimpleUser(signUpDto);
         const user = userModel.toObject();
 

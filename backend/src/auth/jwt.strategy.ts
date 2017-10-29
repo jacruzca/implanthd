@@ -1,7 +1,7 @@
 import * as passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from './auth.service';
-import { Component, Inject } from '@nestjs/common';
+import { Component } from '@nestjs/common';
 import { Constants } from '../common/constants';
 
 @Component()
