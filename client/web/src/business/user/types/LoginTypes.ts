@@ -10,4 +10,6 @@ export interface LoginStoreState {
     success?: boolean;
     error?: boolean;
     errorMessage?: string;
+    user?: object;
+    token?: string;
 }

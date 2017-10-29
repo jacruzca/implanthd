@@ -11,12 +11,10 @@ function* checkLoginWorker(api: ApiInterface, action: LoginCheckAction) {
     try {
         const userApi = new UserApi(api);
         const result = yield call(userApi.signIn, action.email, action.password, action.rememberSession);
-        console.log(result);
-        const successAction: LoginSuccessAction =
-            loginSuccess({email: action.email}, 'sdddd');
+        const {user, token} = result.data;
+        const successAction: LoginSuccessAction = loginSuccess(user, token.accessToken);
         yield put(successAction);
     } catch (e) {
-        console.log(e);
         const errorAction: LoginFailedAction = loginFailed(e.message);
         yield put(errorAction);
     }

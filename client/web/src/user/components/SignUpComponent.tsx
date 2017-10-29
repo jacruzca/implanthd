@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { Icon, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 
-import './LoginComponent.css';
-import { REMEMBER_PASSWORD, SIGN_UP } from '../../constants/routes';
+import './SignUpComponent.css';
+import { LOGIN } from '../../constants/routes';
 import { Checkbox, Input } from '../../core/components/FormComponents';
 
 const logo = require('../../resources/images/logo.png');
@@ -16,6 +16,7 @@ interface LoginComponentProps {
     submitFailed?: boolean;
     touched?: boolean;
     invalid?: boolean;
+    errorMessage?: string;
 }
 
 const showErrors = (errors?: Array<string>): JSX.Element | void => {
@@ -43,7 +44,7 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
                         <Segment stacked={true}>
 
                             <Header as="h2" textAlign="center">
-                                Inicia sesión
+                                Crea una cuenta
                             </Header>
 
                             <Field
@@ -70,6 +71,18 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
                             />
 
                             <Field
+                                name="passwordConfirm"
+                                component={Input}
+                                {...{
+                                    fluid: true,
+                                    placeholder: 'Confirmar Contraseña',
+                                    icon: 'lock',
+                                    type: 'password',
+                                    iconPosition: 'left',
+                                }}
+                            />
+
+                            <Field
                                 name="rememberPassword"
                                 component={Checkbox}
                                 {...{
@@ -86,21 +99,17 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props) => {
                                 loading={props.isLoading}
                                 disabled={props.isLoading}
                             >
-                                Iniciar sesión
+                                Crear cuenta
                             </Button>
-
+                            {props.errorMessage && showErrors([props.errorMessage])}
                             {((props.touched && props.invalid) || props.submitFailed) && showErrors(props.errors)}
-
-                            <Message>
-                                Olvidaste tu contraseña? <Link to={REMEMBER_PASSWORD}>Recordar ahora</Link>
-                            </Message>
                         </Segment>
                     </Form>
                     <Message icon={true}>
                         <Icon name="add user"/>
                         <Message.Content>
-                            <Message.Header>¿No tienes una cuenta?</Message.Header>
-                            <Link to={SIGN_UP}>Crear cuenta</Link>
+                            <Message.Header>¿Ya tienes una cuenta?</Message.Header>
+                            <Link to={LOGIN}>Iniciar sesión</Link>
                         </Message.Content>
                     </Message>
                 </Grid.Column>

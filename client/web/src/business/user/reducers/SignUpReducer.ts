@@ -1,28 +1,28 @@
-import { LoginAction } from '../actions/LoginActions';
-import { LOGIN_CHECK, LOGIN_FAILED, LOGIN_SUCCESS, LoginStoreState } from '../types/LoginTypes';
+import { SignUpAction } from '../actions/SignUpActions';
+import { SIGNUP_CHECK, SIGNUP_FAILED, SIGNUP_SUCCESS, SignUpStoreState } from '../types/SignUpTypes';
 
-const initialState: LoginStoreState = {
+const initialState: SignUpStoreState = {
     isLoading: false,
 };
 
-export function login(state: LoginStoreState = initialState, action: LoginAction): LoginStoreState {
+export function signUp(state: SignUpStoreState = initialState, action: SignUpAction): SignUpStoreState {
     switch (action.type) {
-        case LOGIN_CHECK:
+        case SIGNUP_CHECK:
             return {
                 isLoading: true,
             };
-        case LOGIN_SUCCESS:
+        case SIGNUP_SUCCESS:
             return {
                 user: action.user,
                 token: action.token,
                 isLoading: false,
                 success: true,
             };
-        case LOGIN_FAILED:
+        case SIGNUP_FAILED:
             return {
                 isLoading: false,
                 error: true,
-                errorMessage: action.error,
+                errorMessage: action.errorMessage,
             };
         default:
             return state;

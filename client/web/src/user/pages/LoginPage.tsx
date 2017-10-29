@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import * as Cookies from 'js-cookie';
 import * as Forms from '../../constants/forms';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import LoginComponent from '../components/LoginComponent';
@@ -8,6 +9,9 @@ import { RootState } from '../../business/Reducers';
 import { LoginAction, loginCheck } from '../../business/user/actions/LoginActions';
 import { connect, Dispatch } from 'react-redux';
 import { LoginStoreState } from '../../business/user/types/LoginTypes';
+import { TOKEN_COOKIE, USER_COOKIE } from '../../constants/index';
+import { HOME } from '../../constants/routes';
+import { Redirect } from 'react-router';
 
 interface LoginFormContainerDataProps {
     email?: string;
@@ -39,9 +43,29 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
         }
     }
 
+    redirectToHome() {
+        console.log('Redirecting to home!!');
+        return (
+            <Redirect to={HOME}/>
+        );
+    }
+
     render() {
 
-        const {handleSubmit, errors, isLoading, invalid, submitFailed} = this.props;
+        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token} = this.props;
+
+        const savedUser = Cookies.get(USER_COOKIE);
+        const savedToken = Cookies.get(TOKEN_COOKIE);
+
+        if (savedToken && savedUser) { // already logged in
+            return this.redirectToHome();
+        }
+
+        if (user && token) { // login success
+            Cookies.set(USER_COOKIE, user);
+            Cookies.set(TOKEN_COOKIE, token);
+            return this.redirectToHome();
+        }
 
         const formProps = {
             invalid,
@@ -67,13 +91,13 @@ const validate = (values: LoginFormContainerDataProps): any => {
 };
 
 export function mapStateToProps({login, form}: RootState): LoginFormContainerStateProps {
-    const {isLoading} = login;
+    const {isLoading, token, user} = login;
 
     let loginForm = form[Forms.LOGIN];
 
     return {
         errors: loginForm && loginForm.syncErrors ? _.values(loginForm.syncErrors) : [],
-        isLoading,
+        token, user, isLoading,
     };
 }
 

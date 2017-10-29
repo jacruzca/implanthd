@@ -9,7 +9,7 @@ export interface LoginCheckAction {
 
 export interface LoginSuccessAction {
     type: LOGIN_SUCCESS;
-    user: {};
+    user: object;
     token: string;
 }
 
