@@ -1,4 +1,5 @@
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 import { Component } from '@nestjs/common';
 import { Constants } from '../common/constants';
 import { AuthSignInDto } from './auth.signin.dto';
@@ -22,6 +23,11 @@ export class AuthService {
             throw new NotFoundException(`User not found ${credentials.email}`);
         }
 
+        const passwordMatch = await bcrypt.compare(credentials.password, userModel.password);
+        if (!passwordMatch) {
+            throw new NotFoundException(`Invalid password for ${credentials.email}`);
+        }
+
         const user = userModel.toObject();
 
         const token: string = await jwt.sign(user, Constants.secretKey, {expiresIn});
@@ -39,7 +45,9 @@ export class AuthService {
 
     async signUp(signUpDto: AuthSignUpDto): Promise<AuthSignedDto> {
         const expiresIn = 60 * 60 * 24 * 2; // 2 days
-        const userModel = await this.usersService.createSimpleUser(signUpDto);
+        const encryptedPassword = await bcrypt.hash(signUpDto.password, 10);
+        const userWithEncryptedPassword: AuthSignUpDto = {...signUpDto, ...{password: encryptedPassword}};
+        const userModel = await this.usersService.createSimpleUser(userWithEncryptedPassword);
         const user = userModel.toObject();
 
         const token = await jwt.sign(user, Constants.secretKey, {expiresIn});

@@ -15,9 +15,11 @@
     "@nestjs/microservices": "^4.0.0",
     "@nestjs/testing": "^4.0.0",
     "@nestjs/websockets": "^4.0.0",
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.17.2",
     "class-transformer": "0.1.8",
     "class-validator": "^0.7.3",
+    "cors": "^2.8.4",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.12.3",
     "mongoose-unique-validator": "^1.0.6",
@@ -29,6 +31,7 @@
     "typescript": "^2.5.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^1.0.0",
     "@types/mongoose": "^4.7.24",
     "@types/mongoose-unique-validator": "^1.0.0",
     "@types/node": "^8.0.28",

@@ -3,6 +3,7 @@ import { createLogger } from 'redux-logger';
 import rootReducer, { RootState } from './Reducers';
 import sagas from './Sagas';
 import createSagaMiddleware from 'redux-saga';
+import WebApi from '../core/api/WebApi';
 
 export function configureStore(initialState?: RootState) {
 
@@ -15,7 +16,7 @@ export function configureStore(initialState?: RootState) {
 
     const store = createStore(rootReducer, initialState, middleware) as Store<RootState>;
 
-    sagaMiddleware.run(sagas);
+    sagaMiddleware.run(sagas, new WebApi());
 
     if (module.hot) {
         module.hot.accept('./Reducers', () => {
