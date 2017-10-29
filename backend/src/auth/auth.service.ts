@@ -35,7 +35,10 @@ export class AuthService {
         await this.userTokenService.createToken({user: userModel, token});
 
         return {
-            user,
+            user: {
+                _id: userModel._id,
+                email: userModel.email,
+            },
             token: {
                 expiresIn,
                 accessToken: token,
@@ -55,7 +58,10 @@ export class AuthService {
         await this.userTokenService.createToken({user: userModel, token});
 
         return {
-            user,
+            user: {
+                _id: userModel._id,
+                email: userModel.email,
+            },
             token: {
                 expiresIn,
                 accessToken: token,

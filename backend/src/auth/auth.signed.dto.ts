@@ -4,6 +4,9 @@ export interface Token {
 }
 
 export interface AuthSignedDto {
-    readonly user: object;
+    readonly user: {
+        _id: string,
+        email: string,
+    };
     readonly token: Token;
 }
