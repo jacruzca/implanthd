@@ -11,16 +11,16 @@ import { LoginStoreState } from '../../business/user/types/LoginTypes';
 import { TOKEN_COOKIE, USER_COOKIE } from '../../constants/index';
 import { HOME } from '../../constants/routes';
 import { Redirect } from 'react-router';
-import { AsyncStorage } from 'react-native';
+import { Alert, AsyncStorage } from 'react-native';
 
 interface LoginFormContainerDataProps {
     email?: string;
     password?: string;
-    rememberPassword?: boolean;
 }
 
 interface LoginFormContainerStateProps extends LoginStoreState {
     errors?: Array<string>;
+    history?: any;
 }
 
 interface LoginFormContainerDispatchProps {
@@ -37,23 +37,22 @@ type LoginFormContainerProps =
 
 class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
-    savedUser: object;
-    savedToken: string;
-
     async componentWillMount() {
         const savedUserStr = await AsyncStorage.getItem(USER_COOKIE);
-        this.savedToken = await AsyncStorage.getItem(TOKEN_COOKIE);
-        this.savedUser = JSON.parse(savedUserStr);
+        const savedToken = await AsyncStorage.getItem(TOKEN_COOKIE);
+
+        if (savedToken && savedUserStr) { // already logged in
+            return this.props.history.replace(HOME);
+        }
     }
 
     _submit = (values: Partial<LoginFormContainerDataProps>) => {
         if (values.email && values.password) {
-            this.props.loginCheck(values.email, values.password, values.rememberPassword);
+            this.props.loginCheck(values.email, values.password, true);
         }
     }
 
     redirectToHome() {
-        console.log('Redirecting to home!!');
         return (
             <Redirect to={HOME}/>
         );
@@ -61,11 +60,13 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
     render() {
 
-        if (this.savedToken && this.savedUser) { // already logged in
-            return this.redirectToHome();
-        }
+        console.log(this.props);
 
-        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token} = this.props;
+        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token, hasError} = this.props;
+
+        if (hasError) {
+            Alert.alert('Error', 'Credenciales inválidas');
+        }
 
         if (user && token) { // login success
             AsyncStorage.setItem(USER_COOKIE, JSON.stringify(user));
@@ -97,13 +98,13 @@ const validate = (values: LoginFormContainerDataProps): any => {
 };
 
 export function mapStateToProps({login, form}: RootState): LoginFormContainerStateProps {
-    const {isLoading, token, user} = login;
+    const {isLoading, token, user, hasError} = login;
 
     let loginForm = form[Forms.LOGIN];
 
     return {
         errors: loginForm && loginForm.syncErrors ? _.values(loginForm.syncErrors) : [],
-        token, user, isLoading,
+        token, user, isLoading, hasError,
     };
 }
 

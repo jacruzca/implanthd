@@ -21,7 +21,7 @@ export function login(state: LoginStoreState = initialState, action: LoginAction
         case LOGIN_FAILED:
             return {
                 isLoading: false,
-                hasError: true,
+                error: true,
                 errorMessage: action.error,
             };
         default:

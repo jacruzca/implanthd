@@ -8,7 +8,7 @@ export type LOGIN_FAILED = typeof LOGIN_FAILED;
 export interface LoginStoreState {
     isLoading: boolean;
     success?: boolean;
-    hasError?: boolean;
+    error?: boolean;
     errorMessage?: string;
     user?: object;
     token?: string;
