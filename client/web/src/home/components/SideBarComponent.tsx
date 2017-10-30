@@ -86,7 +86,7 @@ class SideBarComponent extends React.Component<Props, { sidebarVisible: boolean 
                     <Header>
                         <Grid>
                             <Grid.Column computer={3} mobile={6}>
-                                <Image src={logo} fluid={true}/>
+                                <Link to={HOME}><Image src={logo} fluid={true}/></Link>
                             </Grid.Column>
                             <Grid.Column width={10} mobile={7}/>
                             <Grid.Column width={3}>

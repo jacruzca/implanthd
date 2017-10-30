@@ -6,6 +6,8 @@ import {
 import './HomePage.css';
 import SideBarComponent from '../components/SideBarComponent';
 import { getUser } from '../../core/util/CacheUtil';
+import { Link } from 'react-router-dom';
+import { HOME, PROFILE } from '../../constants/routes';
 
 export interface Props {
     name: string;
@@ -21,12 +23,14 @@ const icon6 = require('../../resources/images/icon_6.png');
 
 export class HomePage extends React.Component<Props, {}> {
 
-    renderButton(icon: any, text: string) {
+    renderButton(icon: any, text: string, link: string) {
         return (
-            <Button className="ButtonTransparent">
-                <Image src={icon} centered={true}/>
-                <span>{text}</span>
-            </Button>
+            <Link to={link}>
+                <Button className="ButtonTransparent">
+                    <Image src={icon} centered={true}/>
+                    <span>{text}</span>
+                </Button>
+            </Link>
         );
     }
 
@@ -57,26 +61,26 @@ export class HomePage extends React.Component<Props, {}> {
                 <Grid columns={2} container={true} divided={true} stackable={true}>
                     <Grid.Row>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon1, 'Perfil')}</Segment>
+                            <Segment>{this.renderButton(icon1, 'Perfil', PROFILE)}</Segment>
                         </Grid.Column>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon2, 'Crear Historia')}</Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Segment>{this.renderButton(icon3, 'Inventario')}</Segment>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Segment>{this.renderButton(icon4, 'Agenda')}</Segment>
+                            <Segment>{this.renderButton(icon2, 'Crear Historia', HOME)}</Segment>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon5, 'Historias Clínicas')}</Segment>
+                            <Segment>{this.renderButton(icon3, 'Inventario', HOME)}</Segment>
                         </Grid.Column>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon6, 'Auxiliar')}</Segment>
+                            <Segment>{this.renderButton(icon4, 'Agenda', HOME)}</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon5, 'Historias Clínicas', HOME)}</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon6, 'Auxiliar', HOME)}</Segment>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
