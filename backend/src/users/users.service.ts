@@ -11,6 +11,10 @@ export class UsersService {
     constructor(@Inject(Constants.userModelToken) private readonly userModel: Model<UserModel>) {
     }
 
+    async getById(id: string): Promise<UserModel> {
+        return await this.userModel.findById(id).exec();
+    }
+
     async getByEmail(email: string): Promise<UserModel> {
         return await this.userModel.findOne({email}).exec();
     }
