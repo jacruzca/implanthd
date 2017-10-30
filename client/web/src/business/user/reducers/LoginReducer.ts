@@ -1,5 +1,5 @@
 import { LoginAction } from '../actions/LoginActions';
-import { LOGIN_CHECK, LOGIN_FAILED, LOGIN_SUCCESS, LoginStoreState } from '../types/LoginTypes';
+import { LOGIN_CHECK, LOGIN_FAILED, LOGIN_SUCCESS, LoginStoreState, LOGOUT } from '../types/LoginTypes';
 
 const initialState: LoginStoreState = {
     isLoading: false,
@@ -23,6 +23,14 @@ export function login(state: LoginStoreState = initialState, action: LoginAction
                 isLoading: false,
                 hasError: true,
                 errorMessage: action.error,
+            };
+        case LOGOUT:
+            return {
+                isLoading: false,
+                hasError: false,
+                errorMessage: undefined,
+                user: undefined,
+                token: undefined,
             };
         default:
             return state;

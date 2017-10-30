@@ -1,4 +1,4 @@
-import { LOGIN_CHECK, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT } from '../types/LoginTypes';
+import { LOGIN_CHECK, LOGIN_FAILED, LOGIN_SUCCESS } from '../types/LoginTypes';
 
 export interface LoginCheckAction {
     type: LOGIN_CHECK;
@@ -18,11 +18,7 @@ export interface LoginFailedAction {
     error: string;
 }
 
-export interface LogoutAction {
-    type: LOGOUT;
-}
-
-export type LoginAction = LoginCheckAction | LoginSuccessAction | LoginFailedAction | LogoutAction;
+export type LoginAction = LoginCheckAction | LoginSuccessAction | LoginFailedAction;
 
 export function loginCheck(email: string, password: string, rememberSession: boolean): LoginCheckAction {
     return {
@@ -45,11 +41,5 @@ export function loginFailed(error: string): LoginFailedAction {
     return {
         type: LOGIN_FAILED,
         error,
-    };
-}
-
-export function logout(): LogoutAction {
-    return {
-        type: LOGOUT,
     };
 }

@@ -37,17 +37,21 @@ type LoginFormContainerProps =
 
 class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
+    alertShown: boolean = false;
+
     async componentWillMount() {
         const savedUserStr = await AsyncStorage.getItem(USER_COOKIE);
         const savedToken = await AsyncStorage.getItem(TOKEN_COOKIE);
 
         if (savedToken && savedUserStr) { // already logged in
+            console.log('Logged in!');
             return this.props.history.replace(HOME);
         }
     }
 
     _submit = (values: Partial<LoginFormContainerDataProps>) => {
         if (values.email && values.password) {
+            this.alertShown = false;
             this.props.loginCheck(values.email, values.password, true);
         }
     }
@@ -60,11 +64,10 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
     render() {
 
-        console.log(this.props);
+        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token, hasError, history} = this.props;
 
-        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token, hasError} = this.props;
-
-        if (hasError) {
+        if (hasError && !this.alertShown) {
+            this.alertShown = true;
             Alert.alert('Error', 'Credenciales inválidas');
         }
 
@@ -81,7 +84,8 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
             isLoading,
         };
 
-        return <LoginComponent {...formProps} handleSubmit={handleSubmit(values => this._submit(values))}/>;
+        return <LoginComponent history={history} {...formProps}
+                               handleSubmit={handleSubmit(values => this._submit(values))}/>;
     }
 }
 

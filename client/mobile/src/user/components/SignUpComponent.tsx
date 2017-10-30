@@ -3,12 +3,12 @@ import { Card, CardItem, Button, Container, Header, Content, Form, Item, Input, 
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Field } from 'redux-form';
 import { InputComponent } from '../../core/components/FormComponents';
-import { SIGN_UP } from '../../constants/routes';
+import { LOGIN } from '../../constants/routes';
 
 const logo = require('../../resources/images/logo.png');
 const background = require('../../resources/images/login_background.jpg');
 
-interface LoginComponentProps {
+interface SignUpComponentProps {
     errors?: Array<string>; // global errors of the form
     handleSubmit: (values: any) => void;
     isLoading?: boolean;
@@ -27,7 +27,7 @@ const renderBackImage = () => {
 
 };
 
-const LoginComponent: React.ComponentType<LoginComponentProps> = (props: LoginComponentProps) => {
+const SignUpComponent: React.ComponentType<SignUpComponentProps> = (props: SignUpComponentProps) => {
 
     return (
         <Container>
@@ -39,7 +39,7 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props: LoginCo
                 </View>
                 <View style={styles.mainView}>
                     <Text style={{fontSize: 20, fontWeight: 'bold', color: 'white', paddingTop: 10}}>
-                        Iniciar sesión
+                        Crear cuenta
                     </Text>
                     <Field name='email' component={InputComponent}
                            {...{
@@ -60,25 +60,33 @@ const LoginComponent: React.ComponentType<LoginComponentProps> = (props: LoginCo
                                style: {color: 'white'},
                            }}/>
 
+                    <Field name='passwordConfirm' component={InputComponent}
+                           {...{
+                               icon: 'lock',
+                               placeholder: 'Confirmar Contraseña',
+                               placeholderTextColor: 'white',
+                               secureTextEntry: true,
+                               style: {color: 'white'},
+                           }}/>
+
                     <Button block light style={{marginTop: 30}} onPress={props.handleSubmit}>
-                        <Text>Iniciar sesión</Text>
+                        <Text>Crear cuenta</Text>
                     </Button>
                 </View>
 
-                <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
 
                 <Button iconLeft light full style={{marginTop: 50}} onPress={() => {
-                    props.history.replace(SIGN_UP);
+                    props.history.replace(LOGIN);
                 }}>
                     <Icon name='ios-person-add' style={{fontSize: 29, paddingRight: 20}}/>
-                    <Text>¿No tienes una cuenta?</Text>
+                    <Text>¿Ya tienes una cuenta?</Text>
                 </Button>
             </Content>
         </Container>
     );
 };
 
-export default LoginComponent;
+export default SignUpComponent;
 
 const styles = StyleSheet.create({
     rootView: {
@@ -109,10 +117,5 @@ const styles = StyleSheet.create({
     },
     error: {
         color: 'red',
-    },
-    forgotPasswordText: {
-        color: 'white',
-        textAlign: 'center',
-        paddingTop: 30,
     },
 });

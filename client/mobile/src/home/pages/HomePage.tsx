@@ -1,14 +1,14 @@
 import * as React from 'react';
+import { connect, Dispatch } from 'react-redux';
 import { StyleSheet, Text, Image, View, Dimensions, Modal, AsyncStorage } from 'react-native';
 import {
     Grid, Content, Header, Col, Container, Row, Button, Icon, Title, Body,
 } from 'native-base';
-import { Link } from 'react-router-native';
 import { LOGIN } from '../../constants/routes';
 import { PRIMARY_COLOR } from '../../constants/colors';
 import { TOKEN_COOKIE, USER_COOKIE } from '../../constants/index';
+import { LoginAction, logout } from '../../business/user/actions/LoginActions';
 
-const logo = require('../../resources/images/logo.png');
 const icon1 = require('../../resources/images/icon_1.png');
 const icon2 = require('../../resources/images/icon_2.png');
 const icon3 = require('../../resources/images/icon_3.png');
@@ -17,18 +17,22 @@ const icon5 = require('../../resources/images/icon_5.png');
 const icon6 = require('../../resources/images/icon_6.png');
 
 
-export interface Props {
+interface Props {
     history: any;
 }
 
-export class HomePage extends React.Component<Props, { signOutModalVisible: boolean }> {
+interface HomePageDispatchProps {
+    logout: () => any;
+}
 
-    constructor(props: Props) {
+class HomePage extends React.Component<Props & HomePageDispatchProps, { signOutModalVisible: boolean }> {
+
+    constructor(props: Props & HomePageDispatchProps) {
         super(props);
         this.state = {signOutModalVisible: false};
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         const savedUserStr = await AsyncStorage.getItem(USER_COOKIE);
         const savedToken = await AsyncStorage.getItem(TOKEN_COOKIE);
 
@@ -52,10 +56,13 @@ export class HomePage extends React.Component<Props, { signOutModalVisible: bool
         this.setState({signOutModalVisible: visible});
     }
 
-    signOut() {
-        AsyncStorage.removeItem(TOKEN_COOKIE);
-        AsyncStorage.removeItem(USER_COOKIE);
+    async signOut() {
+        this.props.logout();
+        await AsyncStorage.removeItem(TOKEN_COOKIE);
+        await AsyncStorage.removeItem(USER_COOKIE);
         this.props.history.replace(LOGIN);
+        console.log('Replaced!');
+        this.setSignOutModalVisible(false)
     }
 
     displaySignOutModal = () => {
@@ -78,7 +85,6 @@ export class HomePage extends React.Component<Props, { signOutModalVisible: bool
                     <Content>
                         <Button light style={{marginBottom: 10}} block onPress={() => {
                             this.signOut();
-                            this.setSignOutModalVisible(!this.state.signOutModalVisible)
                         }}>
                             <Text>Sí</Text>
                         </Button>
@@ -150,6 +156,15 @@ export class HomePage extends React.Component<Props, { signOutModalVisible: bool
     }
 
 }
+
+function mapDispatchToProps(dispatch: Dispatch<LoginAction>): HomePageDispatchProps {
+    return {
+        logout: () =>
+            dispatch(logout()),
+    };
+}
+
+export default connect(null, mapDispatchToProps)(HomePage as any);
 
 const styles = StyleSheet.create({
     container: {
