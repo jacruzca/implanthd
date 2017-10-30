@@ -10,7 +10,7 @@ import { UserStoreState } from './user/types/UserTypes';
 export interface RootState {
     login: LoginStoreState;
     signUp: SignUpStoreState;
-    user: UserStoreState;
+    user: UserStoreState,
     form: any;
 }
 

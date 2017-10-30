@@ -44,7 +44,6 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
     }
 
     redirectToHome() {
-        console.log('Redirecting to home!!');
         return (
             <Redirect to={HOME}/>
         );
@@ -60,8 +59,6 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
         const savedUser = Cookies.get(USER_COOKIE);
         const savedToken = Cookies.get(TOKEN_COOKIE);
-
-        console.log(hasError);
 
         if (hasError) {
             this.showErrorModal();

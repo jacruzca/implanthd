@@ -12,7 +12,6 @@ function* checkSignUpWorker(api: ApiInterface, action: SignUpCheckAction) {
         const userApi = new UserApi(api);
         const {email, password} = action;
         const result = yield call(userApi.signUp, {email, password});
-        console.log(result);
         const {user, token} = result.data;
         const successAction: SignUpSuccessAction = signUpSuccess(user, token.accessToken);
         yield put(successAction);

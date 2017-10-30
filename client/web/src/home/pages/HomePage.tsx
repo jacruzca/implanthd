@@ -1,15 +1,17 @@
 import * as React from 'react';
 import {
-    Grid, Segment, Image, Header, Icon, Button, Sidebar, Menu,
+    Grid, Segment, Image, Button,
 } from 'semantic-ui-react';
 
 import './HomePage.css';
+import SideBarComponent from '../components/SideBarComponent';
+import { getUser } from '../../core/util/CacheUtil';
 
 export interface Props {
     name: string;
 }
 
-const logo = require('../../resources/images/logo_h.png');
+const userImage = require('../../resources/images/user_default.png');
 const icon1 = require('../../resources/images/icon_1.png');
 const icon2 = require('../../resources/images/icon_2.png');
 const icon3 = require('../../resources/images/icon_3.png');
@@ -17,16 +19,7 @@ const icon4 = require('../../resources/images/icon_4.png');
 const icon5 = require('../../resources/images/icon_5.png');
 const icon6 = require('../../resources/images/icon_6.png');
 
-export class HomePage extends React.Component<Props, { sidebarVisible: boolean }> {
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {sidebarVisible: false};
-    }
-
-    toggleSidebarVisibility() {
-        this.setState({sidebarVisible: !this.state.sidebarVisible});
-    }
+export class HomePage extends React.Component<Props, {}> {
 
     renderButton(icon: any, text: string) {
         return (
@@ -37,84 +30,57 @@ export class HomePage extends React.Component<Props, { sidebarVisible: boolean }
         );
     }
 
-    renderSideBar() {
-        const {sidebarVisible} = this.state;
+    renderProfileImage = (user?: any) => {
+        if (user && user.profileImage) {
+            return (
+                <Image src={user.profileImage} avatar={true}/>
+            );
+        }
+
         return (
-            <Sidebar.Pushable as={Segment}>
-                <Sidebar
-                    as={Menu}
-                    animation="push"
-                    width="wide"
-                    direction="right"
-                    visible={sidebarVisible}
-                    icon="labeled"
-                    vertical={true}
-                    inverted={true}
-                >
-                    <Menu.Item name="home">
-                        <Icon name="home"/>
-                        Home
-                    </Menu.Item>
-                    <Menu.Item name="gamepad">
-                        <Icon name="gamepad"/>
-                        Games
-                    </Menu.Item>
-                    <Menu.Item name="camera">
-                        <Icon name="camera"/>
-                        Channels
-                    </Menu.Item>
-                </Sidebar>
-                <Sidebar.Pusher>
-                    <Header>
-                        <Grid>
-                            <Grid.Column computer={3} mobile={6}>
-                                <Image src={logo} fluid={true}/>
-                            </Grid.Column>
-                            <Grid.Column width={10} mobile={7}/>
-                            <Grid.Column width={3}>
-                                <Button className="ButtonTransparent" onClick={() => this.toggleSidebarVisibility()}>
-                                    <Icon className="SideBarIcon" name="sidebar" size="big"/>
-                                </Button>
-                            </Grid.Column>
-                        </Grid>
-                    </Header>
-                    <Grid columns={2} container={true} divided={true} stackable={true}>
-                        <Grid.Row>
-                            <Grid.Column>
-                                <Segment>{this.renderButton(icon1, 'Perfil')}</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>{this.renderButton(icon2, 'Crear Historia')}</Segment>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column>
-                                <Segment>{this.renderButton(icon3, 'Inventario')}</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>{this.renderButton(icon4, 'Agenda')}</Segment>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Grid.Column>
-                                <Segment>{this.renderButton(icon5, 'Historias Clínicas')}</Segment>
-                            </Grid.Column>
-                            <Grid.Column>
-                                <Segment>{this.renderButton(icon6, 'Auxiliar')}</Segment>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Sidebar.Pusher>
-            </Sidebar.Pushable>
+            <Image size="small" src={userImage} avatar={true}/>
         );
     }
 
     render() {
+        const user = getUser();
         return (
-            <div>
-                {this.renderSideBar()}
-            </div>
+            <SideBarComponent>
+                <Grid container={true} divided={true} stackable={true}>
+                    <Grid.Column>
+                        <Segment>
+                            {this.renderProfileImage(user)}
+                            <div>{user.email}</div>
+                        </Segment>
+                    </Grid.Column>
+                </Grid>
+                <Grid columns={2} container={true} divided={true} stackable={true}>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon1, 'Perfil')}</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon2, 'Crear Historia')}</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon3, 'Inventario')}</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon4, 'Agenda')}</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon5, 'Historias Clínicas')}</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment>{this.renderButton(icon6, 'Auxiliar')}</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </SideBarComponent>
         );
     }
-
 }

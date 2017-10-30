@@ -6,12 +6,15 @@ import {
     SignUpSuccessAction,
 } from '../actions/SignUpActions';
 import { SIGNUP_CHECK } from '../types/SignUpTypes';
+import { USER_CHECK } from '../types/UserTypes';
+import { UserCheckAction } from '../actions/UserActions';
 
-function* checkSignUpWorker(api: ApiInterface, action: SignUpCheckAction) {
+function* checkUserWorker(api: ApiInterface, action: UserCheckAction) {
     try {
         const userApi = new UserApi(api);
         const {email, password} = action;
-        const result = yield call(userApi.signUp, {email, password});
+        const result = yield call(userApi.getUser, {email, password});
+        console.log(result);
         const {user, token} = result.data;
         const successAction: SignUpSuccessAction = signUpSuccess(user, token.accessToken);
         yield put(successAction);
@@ -27,10 +30,10 @@ function* checkSignUpWorker(api: ApiInterface, action: SignUpCheckAction) {
     }
 }
 
-function* watchSignUp(api: ApiInterface) {
-    yield takeEvery(SIGNUP_CHECK, checkSignUpWorker, api);
+function* watchUser(api: ApiInterface) {
+    yield takeEvery(USER_CHECK, checkUserWorker, api);
 }
 
 export default function* root(api: ApiInterface) {
-    yield fork(watchSignUp, api);
+    yield fork(watchUser, api);
 }

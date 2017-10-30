@@ -1,5 +1,5 @@
 export default interface ApiInterface {
-    get(endpoint: string, qs?: any): Promise<any>;
+    get(endpoint: string, qs: any): Promise<any>;
 
     post(endpoint: string, data: object): Promise<any>;
 

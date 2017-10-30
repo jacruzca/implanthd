@@ -2,9 +2,11 @@ import { fork } from 'redux-saga/effects';
 
 import loginSaga from './user/sagas/LoginSaga';
 import signUpSaga from './user/sagas/SignUpSaga';
+import userSaga from './user/sagas/UserSaga';
 import ApiInterface from './ApiInterface';
 
 export default function* rootSaga(api: ApiInterface) {
     yield fork(loginSaga, api);
     yield fork(signUpSaga, api);
+    yield fork(userSaga, api);
 }
