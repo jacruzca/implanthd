@@ -5,21 +5,51 @@
  */
 
 import * as React from 'react';
+import { Provider } from 'react-redux';
+import { configureStore } from './src/business/Store';
 import { NativeRouter, Route } from 'react-router-native';
 import { HomePage } from './src/home/pages/HomePage';
 import { HOME, LOGIN } from './src/constants/routes';
-import { StyleSheet, View } from 'react-native';
-import LoginComponent from './src/user/components/LoginComponent';
+import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
+import LoginPage from './src/user/pages/LoginPage';
+import MobileApi from './src/core/api/MobileApi';
+import { TOKEN_COOKIE } from './src/constants/index';
+import { Store } from 'redux';
+import { RootState } from './src/business/Reducers';
 
-export default class App extends React.Component<{}> {
+export default class App extends React.Component<{}, { storeReady: boolean, token?: string }> {
+
+    store: Store<RootState>;
+
+    constructor(props: {}) {
+        super(props);
+        this.state = {storeReady: false};
+    }
+
+    async componentWillMount() {
+        const token = await AsyncStorage.getItem(TOKEN_COOKIE);
+        this.setState({token, storeReady: true});
+    }
+
+
     render() {
+        if (!this.state.storeReady) {
+            return <View style={styles.container}><Text>Loading ...</Text></View>;
+        }
+
+        if (!this.store) {
+            this.store = configureStore(new MobileApi(this.state.token));
+        }
+
         return (
-            <NativeRouter>
-                <View style={styles.container}>
-                    <Route exact path={HOME} component={HomePage}/>
-                    <Route exact path={LOGIN} component={LoginComponent}/>
-                </View>
-            </NativeRouter>
+            <Provider store={this.store}>
+                <NativeRouter>
+                    <View style={styles.container}>
+                        <Route exact path={HOME} component={HomePage}/>
+                        <Route exact path={LOGIN} component={LoginPage}/>
+                    </View>
+                </NativeRouter>
+            </Provider>
         );
     }
 }

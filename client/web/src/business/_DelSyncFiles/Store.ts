@@ -5,6 +5,7 @@ import sagas from './Sagas';
 import createSagaMiddleware from 'redux-saga';
 import ApiInterface from './ApiInterface';
 
+
 export function configureStore(api: ApiInterface, module?: any, initialState?: RootState) {
 
     const sagaMiddleware = createSagaMiddleware();

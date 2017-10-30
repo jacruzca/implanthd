@@ -72,11 +72,13 @@ class SignUpFormContainer extends React.Component<SignUpFormContainerProps, {}> 
             isLoading,
         };
 
-        return <SignUpComponent
-            {...formProps}
-            errorMessage={errorMessage}
-            handleSubmit={handleSubmit(values => this._submit(values))}
-        />;
+        return (
+            <SignUpComponent
+                {...formProps}
+                errorMessage={errorMessage}
+                handleSubmit={handleSubmit(values => this._submit(values))}
+            />
+        );
     }
 }
 

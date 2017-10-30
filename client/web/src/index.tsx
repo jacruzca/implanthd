@@ -8,8 +8,9 @@ import './index.css';
 import './semantic/dist/semantic.min.css';
 
 import App from './App';
+import WebApi from './core/api/WebApi';
 
-const store = configureStore();
+const store = configureStore(new WebApi(), module);
 
 const rootEl = document.getElementById('root') as HTMLElement;
 ReactDOM.render(

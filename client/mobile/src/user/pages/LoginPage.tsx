@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import * as Cookies from 'js-cookie';
 import * as Forms from '../../constants/forms';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import LoginComponent from '../components/LoginComponent';
@@ -12,6 +11,7 @@ import { LoginStoreState } from '../../business/user/types/LoginTypes';
 import { TOKEN_COOKIE, USER_COOKIE } from '../../constants/index';
 import { HOME } from '../../constants/routes';
 import { Redirect } from 'react-router';
+import { AsyncStorage } from 'react-native';
 
 interface LoginFormContainerDataProps {
     email?: string;
@@ -37,6 +37,15 @@ type LoginFormContainerProps =
 
 class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
+    savedUser: object;
+    savedToken: string;
+
+    async componentWillMount() {
+        const savedUserStr = await AsyncStorage.getItem(USER_COOKIE);
+        this.savedToken = await AsyncStorage.getItem(TOKEN_COOKIE);
+        this.savedUser = JSON.parse(savedUserStr);
+    }
+
     _submit = (values: Partial<LoginFormContainerDataProps>) => {
         if (values.email && values.password) {
             this.props.loginCheck(values.email, values.password, values.rememberPassword);
@@ -52,18 +61,15 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
 
     render() {
 
-        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token} = this.props;
-
-        const savedUser = Cookies.get(USER_COOKIE);
-        const savedToken = Cookies.get(TOKEN_COOKIE);
-
-        if (savedToken && savedUser) { // already logged in
+        if (this.savedToken && this.savedUser) { // already logged in
             return this.redirectToHome();
         }
 
+        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token} = this.props;
+
         if (user && token) { // login success
-            Cookies.set(USER_COOKIE, user);
-            Cookies.set(TOKEN_COOKIE, token);
+            AsyncStorage.setItem(USER_COOKIE, JSON.stringify(user));
+            AsyncStorage.setItem(TOKEN_COOKIE, token);
             return this.redirectToHome();
         }
 

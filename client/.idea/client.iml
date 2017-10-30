@@ -3,6 +3,8 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/mobile/src/business" isTestSource="false" generated="true" />
+      <excludeFolder url="file://$MODULE_DIR$/mobile/src/business/_DelSyncFiles" />
       <excludeFolder url="file://$MODULE_DIR$/web/build" />
       <excludeFolder url="file://$MODULE_DIR$/web/src/semantic/dist" />
     </content>
