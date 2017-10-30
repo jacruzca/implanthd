@@ -50,12 +50,22 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
         );
     }
 
+    showErrorModal() {
+        alert('Credenciales inválidas');
+    }
+
     render() {
 
-        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token} = this.props;
+        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, token, hasError} = this.props;
 
         const savedUser = Cookies.get(USER_COOKIE);
         const savedToken = Cookies.get(TOKEN_COOKIE);
+
+        console.log(hasError);
+
+        if (hasError) {
+            this.showErrorModal();
+        }
 
         if (savedToken && savedUser) { // already logged in
             return this.redirectToHome();
@@ -74,7 +84,9 @@ class LoginFormContainer extends React.Component<LoginFormContainerProps, {}> {
             isLoading,
         };
 
-        return <LoginComponent {...formProps} handleSubmit={handleSubmit(values => this._submit(values))}/>;
+        return (
+            <LoginComponent {...formProps} handleSubmit={handleSubmit(values => this._submit(values))}/>
+        );
     }
 }
 
@@ -91,13 +103,13 @@ const validate = (values: LoginFormContainerDataProps): any => {
 };
 
 export function mapStateToProps({login, form}: RootState): LoginFormContainerStateProps {
-    const {isLoading, token, user} = login;
+    const {isLoading, token, user, hasError} = login;
 
     let loginForm = form[Forms.LOGIN];
 
     return {
         errors: loginForm && loginForm.syncErrors ? _.values(loginForm.syncErrors) : [],
-        token, user, isLoading,
+        token, user, isLoading, hasError,
     };
 }
 
