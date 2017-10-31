@@ -8,14 +8,14 @@ export default class UserApi extends ApiAbstract {
 
     signIn = (email: string, password: string, rememberSession: boolean = false) => {
         return this.getApi().post(this.SIGNIN, {email, password, rememberSession});
-    };
+    }
 
     signUp = (user: object) => {
         return this.getApi().post(this.SIGNUP, user);
-    };
+    }
 
     getUser = (id: string) => {
         return this.getApi().get(`${this.USERS}/${id}`);
-    };
+    }
 
 }

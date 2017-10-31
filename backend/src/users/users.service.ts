@@ -12,7 +12,7 @@ export class UsersService {
     }
 
     async getById(id: string): Promise<UserModel> {
-        return await this.userModel.findById(id).exec();
+        return await this.userModel.findById(id, {password: 0}).exec();
     }
 
     async getByEmail(email: string): Promise<UserModel> {
@@ -29,6 +29,10 @@ export class UsersService {
             }
             throw e;
         }
+    }
+
+    async updateUser(id: string, user: UserModel): Promise<UserModel> {
+        return await this.userModel.findOneAndUpdate(id, user);
     }
 
     async findAll(): Promise<UserModel[]> {

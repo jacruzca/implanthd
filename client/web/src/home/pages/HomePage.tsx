@@ -52,7 +52,7 @@ export class HomePage extends React.Component<Props, {}> {
             <SideBarComponent>
                 <Grid container={true} divided={true} stackable={true}>
                     <Grid.Column>
-                        <Segment>
+                        <Segment textAlign="center">
                             {this.renderProfileImage(user)}
                             <div>{user.email}</div>
                         </Segment>
@@ -61,26 +61,26 @@ export class HomePage extends React.Component<Props, {}> {
                 <Grid columns={2} container={true} divided={true} stackable={true}>
                     <Grid.Row>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon1, 'Perfil', PROFILE)}</Segment>
+                            <Segment textAlign="center">{this.renderButton(icon1, 'Perfil', PROFILE)}</Segment>
                         </Grid.Column>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon2, 'Crear Historia', HOME)}</Segment>
-                        </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column>
-                            <Segment>{this.renderButton(icon3, 'Inventario', HOME)}</Segment>
-                        </Grid.Column>
-                        <Grid.Column>
-                            <Segment>{this.renderButton(icon4, 'Agenda', HOME)}</Segment>
+                            <Segment textAlign="center">{this.renderButton(icon2, 'Crear Historia', HOME)}</Segment>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon5, 'Historias Clínicas', HOME)}</Segment>
+                            <Segment textAlign="center">{this.renderButton(icon3, 'Inventario', HOME)}</Segment>
                         </Grid.Column>
                         <Grid.Column>
-                            <Segment>{this.renderButton(icon6, 'Auxiliar', HOME)}</Segment>
+                            <Segment textAlign="center">{this.renderButton(icon4, 'Agenda', HOME)}</Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Segment textAlign="center">{this.renderButton(icon5, 'Historias Clínicas', HOME)}</Segment>
+                        </Grid.Column>
+                        <Grid.Column>
+                            <Segment textAlign="center">{this.renderButton(icon6, 'Auxiliar', HOME)}</Segment>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>

@@ -1,23 +1,22 @@
-import { USER_CHECK, USER_FAILED, USER_SUCCESS, UserStoreState } from '../types/UserTypes';
-import { UserAction } from '../actions/UserActions';
+import { EDIT_USER, EDIT_USER_FAILED, EDIT_USER_SUCCESS, EditUserStoreState } from '../types/EditUserTypes';
+import { EditUserAction } from '../actions/EditUserActions';
 
-const initialState: UserStoreState = {
+const initialState: EditUserStoreState = {
     isLoading: false,
 };
 
-export function user(state: UserStoreState = initialState, action: UserAction): UserStoreState {
+export function profile(state: EditUserStoreState = initialState, action: EditUserAction): EditUserStoreState {
     switch (action.type) {
-        case USER_CHECK:
+        case EDIT_USER:
             return {
                 isLoading: true,
             };
-        case USER_SUCCESS:
+        case EDIT_USER_SUCCESS:
             return {
-                user: action.user,
                 isLoading: false,
                 success: true,
             };
-        case USER_FAILED:
+        case EDIT_USER_FAILED:
             return {
                 isLoading: false,
                 error: true,

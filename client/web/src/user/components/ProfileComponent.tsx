@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Grid, Image, Segment, Button } from 'semantic-ui-react';
 
 import './ProfileComponent.css';
-import { getUser } from '../../core/util/CacheUtil';
+import { Link } from 'react-router-dom';
+import { EDIT_PROFILE } from '../../constants/routes';
 
 const userImage = require('../../resources/images/user_default.png');
 
@@ -10,6 +11,7 @@ interface ProfileComponentProps {
     errors?: Array<string>; // global errors of the form
     isLoading?: boolean;
     errorMessage?: string;
+    user?: any;
 }
 
 const renderProfileImage = (user?: any) => {
@@ -26,7 +28,7 @@ const renderProfileImage = (user?: any) => {
 
 const ProfileComponent: React.ComponentType<ProfileComponentProps> = (props) => {
 
-    const user = getUser();
+    const {user} = props;
 
     return (
         <Grid columns={2} container={true} stackable={true}>
@@ -40,7 +42,7 @@ const ProfileComponent: React.ComponentType<ProfileComponentProps> = (props) => 
                     <Grid columns={2} container={true} divided={'vertically'}>
                         <Grid.Row>
                             <Grid.Column width={16} textAlign="right">
-                                <Button>Edit</Button>
+                                <Link to={EDIT_PROFILE}><Button>Edit</Button></Link>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>

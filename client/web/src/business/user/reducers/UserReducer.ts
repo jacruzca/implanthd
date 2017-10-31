@@ -1,12 +1,11 @@
 import { USER_CHECK, USER_FAILED, USER_SUCCESS, UserStoreState } from '../types/UserTypes';
-import { SignUpStoreState } from '../types/SignUpTypes';
 import { UserAction } from '../actions/UserActions';
 
 const initialState: UserStoreState = {
     isLoading: false,
 };
 
-export function user(state: SignUpStoreState = initialState, action: UserAction): UserStoreState {
+export function user(state: UserStoreState = initialState, action: UserAction): UserStoreState {
     switch (action.type) {
         case USER_CHECK:
             return {

@@ -1,31 +1,17 @@
 import { call, fork, put, takeEvery } from 'redux-saga/effects';
 import ApiInterface from '../../ApiInterface';
 import UserApi from '../api/UserApi';
-import {
-    SignUpCheckAction, signUpFailed, SignUpFailedAction, signUpSuccess,
-    SignUpSuccessAction,
-} from '../actions/SignUpActions';
-import { SIGNUP_CHECK } from '../types/SignUpTypes';
 import { USER_CHECK } from '../types/UserTypes';
-import { UserCheckAction } from '../actions/UserActions';
+import { UserCheckAction, userFailed, UserFailedAction, userSuccess, UserSuccessAction } from '../actions/UserActions';
 
 function* checkUserWorker(api: ApiInterface, action: UserCheckAction) {
     try {
         const userApi = new UserApi(api);
-        const {email, password} = action;
-        const result = yield call(userApi.getUser, {email, password});
-        console.log(result);
-        const {user, token} = result.data;
-        const successAction: SignUpSuccessAction = signUpSuccess(user, token.accessToken);
+        const result = yield call(userApi.getUser, action.id);
+        const successAction: UserSuccessAction = userSuccess(result.data);
         yield put(successAction);
     } catch (e) {
-        let message = e.message;
-        if (e.response.status === 409) {
-            message = `Un usuario ya se encuentra registrado con el correo ${action.email}`;
-        } else if (e.response.status === 400) {
-            message = `Error en la validación de datos`;
-        }
-        const errorAction: SignUpFailedAction = signUpFailed(message);
+        const errorAction: UserFailedAction = userFailed(`Usuario con id ${action.id} no encontrado`);
         yield put(errorAction);
     }
 }

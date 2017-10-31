@@ -18,4 +18,8 @@ export default class UserApi extends ApiAbstract {
         return this.getApi().get(`${this.USERS}/${id}`);
     }
 
+    updateUser = (id: string, user: any) => {
+        return this.getApi().put(`${this.USERS}/${id}`, user);
+    }
+
 }

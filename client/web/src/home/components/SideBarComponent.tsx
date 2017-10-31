@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { HOME, PROFILE } from '../../constants/routes';
 
 interface Props {
-
 }
 
 const logo = require('../../resources/images/logo_h.png');
