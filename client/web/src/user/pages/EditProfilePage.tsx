@@ -14,6 +14,7 @@ import { EditUserStoreState } from '../../business/user/types/EditUserTypes';
 import { PROFILE } from '../../constants/routes';
 
 interface EditProfileFormContainerDataProps {
+    _id?: string;
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -44,8 +45,15 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
 
     _submit = (values: Partial<EditProfileFormContainerDataProps>) => {
         if (this.props.user) {
-            console.log(values);
-            this.props.editUser(this.props.user._id, values);
+            const toUpdate = {...values};
+            delete toUpdate._id;
+            this.props.editUser(this.props.user._id, toUpdate);
+        }
+    }
+
+    componentWillReceiveProps(nextProps: EditProfileFormContainerProps) {
+        if (!this.props.success && nextProps.success) {
+            this.props.history.push(PROFILE);
         }
     }
 
@@ -61,14 +69,9 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
         const {
             handleSubmit, errors, isLoading,
             invalid, submitFailed, user,
-            errorMessage, isProfessional, success,
+            errorMessage, isProfessional,
             isProfileLoading,
         } = this.props;
-
-        if (success) {
-            this.props.history.push(PROFILE);
-            return <div/>;
-        }
 
         if (isLoading) {
             return (
@@ -116,14 +119,14 @@ export function mapStateToProps(state: RootState): EditProfileFormContainerState
     const selector = formValueSelector(Forms.PROFILE); // <-- same as form name
     const isProfessional = selector(state, 'isProfessional');
     const {isLoading, user, errorMessage} = userRoot;
-    const {isLoading: isProfileLoading} = profile;
+    const {isLoading: isProfileLoading, success} = profile;
 
     let profileForm = form[Forms.PROFILE];
 
     let ret = {
         errors: profileForm && profileForm.syncErrors ? _.values(profileForm.syncErrors) : [],
         user, isLoading, errorMessage, isProfileLoading, isProfessional,
-        initialValues: user,
+        initialValues: user, success,
     };
 
     return ret;

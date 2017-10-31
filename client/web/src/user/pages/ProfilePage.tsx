@@ -25,10 +25,8 @@ type ProfileFormContainerProps =
 class ProfilePage extends React.Component<ProfileFormContainerProps, {}> {
 
     componentWillMount() {
-        if (!this.props.user) {
-            const user = getUser();
-            this.props.userCheck(user._id);
-        }
+        const user = getUser();
+        this.props.userCheck(user._id);
     }
 
     render() {

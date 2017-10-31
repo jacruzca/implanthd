@@ -33,7 +33,7 @@ const ProfileComponent: React.ComponentType<ProfileComponentProps> = (props) => 
     return (
         <Grid columns={2} container={true} stackable={true}>
             <Grid.Column width={4}>
-                <Segment>
+                <Segment textAlign="center">
                     {renderProfileImage(user)}
                 </Segment>
             </Grid.Column>
@@ -50,7 +50,7 @@ const ProfileComponent: React.ComponentType<ProfileComponentProps> = (props) => 
                                 Nombre
                             </Grid.Column>
                             <Grid.Column width={10}>
-                                <div>{user && user.email}</div>
+                                <div>{user && user.firstName} {user && user.lastName}</div>
                             </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
@@ -59,6 +59,22 @@ const ProfileComponent: React.ComponentType<ProfileComponentProps> = (props) => 
                             </Grid.Column>
                             <Grid.Column width={10}>
                                 <div>{user && user.email}</div>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={6}>
+                                Género
+                            </Grid.Column>
+                            <Grid.Column width={10}>
+                                <div>{user && user.gender}</div>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Grid.Column width={6}>
+                                Dirección
+                            </Grid.Column>
+                            <Grid.Column width={10}>
+                                <div>{user && user.address}, {user && user.city}, {user && user.country}</div>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

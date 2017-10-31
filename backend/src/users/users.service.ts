@@ -32,7 +32,7 @@ export class UsersService {
     }
 
     async updateUser(id: string, user: UserModel): Promise<UserModel> {
-        return await this.userModel.findOneAndUpdate(id, user);
+        return await this.userModel.update({_id: id}, user);
     }
 
     async findAll(): Promise<UserModel[]> {
