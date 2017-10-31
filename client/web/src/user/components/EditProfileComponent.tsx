@@ -12,12 +12,15 @@ interface ProfileComponentProps {
     isLoading?: boolean;
     errorMessage?: string;
     user?: any;
-    isProfessional?: any;
+    isProfessional?: boolean;
+    isProfileLoading?: boolean;
 }
 
 const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props) => {
 
     const {user, isProfessional} = props;
+
+    console.log(user);
 
     return (
         <Grid container={true} stackable={true}>
@@ -25,14 +28,14 @@ const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props)
                 <Form onSubmit={props.handleSubmit}>
                     <Segment stacked={true}>
                         <Header as="h2" textAlign="center">
-                            Editar Perfil ({user.email})
+                            Editar Perfil ({user && user.email})
                         </Header>
 
                         <Form.Group widths="equal">
                             <Form.Field>
                                 <label>Nombre</label>
                                 <Field
-                                    name="firstname"
+                                    name="firstName"
                                     component={Input}
                                     {...{
                                         fluid: true,
@@ -43,7 +46,7 @@ const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props)
                             <Form.Field>
                                 <label>Apellidos</label>
                                 <Field
-                                    name="lastname"
+                                    name="lastName"
                                     component={Input}
                                     {...{
                                         fluid: true,
@@ -276,8 +279,8 @@ const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props)
                             fluid={true}
                             type="submit"
                             size="large"
-                            loading={props.isLoading}
-                            disabled={props.isLoading}
+                            loading={props.isProfileLoading}
+                            disabled={props.isProfileLoading}
                         >
                             Actualizar Perfil
                         </Button>

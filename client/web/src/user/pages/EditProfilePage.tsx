@@ -11,6 +11,7 @@ import { getUser } from '../../core/util/CacheUtil';
 import { editUser } from '../../business/user/actions/EditUserActions';
 import EditProfileComponent from '../components/EditProfileComponent';
 import { EditUserStoreState } from '../../business/user/types/EditUserTypes';
+import { PROFILE } from '../../constants/routes';
 
 interface EditProfileFormContainerDataProps {
     firstName?: string;
@@ -20,6 +21,8 @@ interface EditProfileFormContainerDataProps {
 }
 
 interface EditProfileFormContainerStateProps extends EditUserStoreState {
+    history?: any;
+    initialValues?: any;
     isProfessional: boolean;
     errors?: Array<string>;
     isProfileLoading: boolean;
@@ -41,7 +44,7 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
     _submit = (values: Partial<EditProfileFormContainerDataProps>) => {
         if (this.props.user) {
             console.log(values);
-            // this.props.editUser(this.props.user._id, values);
+            this.props.editUser(this.props.user._id, values);
         }
     }
 
@@ -54,7 +57,17 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
 
     render() {
 
-        const {handleSubmit, errors, isLoading, invalid, submitFailed, user, errorMessage, isProfessional} = this.props;
+        const {
+            handleSubmit, errors, isLoading,
+            invalid, submitFailed, user,
+            errorMessage, isProfessional, success,
+            isProfileLoading
+        } = this.props;
+
+        if (success) {
+            this.props.history.push(PROFILE);
+            return <div/>;
+        }
 
         if (isLoading) {
             return (
@@ -67,6 +80,7 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
         }
 
         const formProps = {
+            isProfileLoading,
             isProfessional,
             invalid,
             submitFailed,
@@ -105,10 +119,13 @@ export function mapStateToProps(state: RootState): EditProfileFormContainerState
 
     let profileForm = form[Forms.PROFILE];
 
-    return {
+    let ret = {
         errors: profileForm && profileForm.syncErrors ? _.values(profileForm.syncErrors) : [],
         user, isLoading, errorMessage, isProfileLoading, isProfessional,
+        initialValues: user
     };
+
+    return ret;
 }
 
 export function mapDispatchToProps(dispatch: Dispatch<UserAction>): EditProfileFormContainerDispatchProps {
