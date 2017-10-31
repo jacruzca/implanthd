@@ -18,6 +18,7 @@ interface EditProfileFormContainerDataProps {
     lastName?: string;
     email?: string;
     gender?: string;
+    history?: any;
 }
 
 interface EditProfileFormContainerStateProps extends EditUserStoreState {
@@ -61,7 +62,7 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
             handleSubmit, errors, isLoading,
             invalid, submitFailed, user,
             errorMessage, isProfessional, success,
-            isProfileLoading
+            isProfileLoading,
         } = this.props;
 
         if (success) {
@@ -71,7 +72,7 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
 
         if (isLoading) {
             return (
-                <SideBarComponent>
+                <SideBarComponent history={this.props.history}>
                     <Dimmer active={true}>
                         <Loader/>
                     </Dimmer>
@@ -89,7 +90,7 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
         };
 
         return (
-            <SideBarComponent>
+            <SideBarComponent history={this.props.history}>
                 <EditProfileComponent
                     {...formProps}
                     errorMessage={errorMessage}
@@ -122,7 +123,7 @@ export function mapStateToProps(state: RootState): EditProfileFormContainerState
     let ret = {
         errors: profileForm && profileForm.syncErrors ? _.values(profileForm.syncErrors) : [],
         user, isLoading, errorMessage, isProfileLoading, isProfessional,
-        initialValues: user
+        initialValues: user,
     };
 
     return ret;

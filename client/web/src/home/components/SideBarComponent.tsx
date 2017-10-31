@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Sidebar, Segment, Menu, Icon, Header, Grid, Image, Button } from 'semantic-ui-react';
+import { Sidebar, Segment, Menu, Icon, Header, Grid, Image, Button, Confirm } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { HOME, PROFILE } from '../../constants/routes';
+import { HOME, LOGIN, PROFILE } from '../../constants/routes';
+import { logout } from '../../core/util/CacheUtil';
 
 interface Props {
+    history: any;
 }
 
 const logo = require('../../resources/images/logo_h.png');
@@ -14,16 +16,24 @@ const icon4 = require('../../resources/images/icon_4.png');
 const icon5 = require('../../resources/images/icon_5.png');
 const icon6 = require('../../resources/images/icon_6.png');
 
-class SideBarComponent extends React.Component<Props, { sidebarVisible: boolean }> {
+class SideBarComponent extends React.Component<Props, { sidebarVisible: boolean, showConfirmLogout: boolean, }> {
 
     constructor(props: Props) {
         super(props);
-        this.state = {sidebarVisible: false};
+        this.state = {sidebarVisible: false, showConfirmLogout: false};
     }
 
     toggleSidebarVisibility() {
         this.setState({sidebarVisible: !this.state.sidebarVisible});
     }
+
+    showConfirmLogout = () => this.setState({showConfirmLogout: true});
+    handleConfirmLogout = () => {
+        logout();
+        this.props.history.replace(LOGIN);
+        this.setState({showConfirmLogout: false});
+    }
+    handleCancelLogout = () => this.setState({showConfirmLogout: false});
 
     render() {
         return (
@@ -80,6 +90,18 @@ class SideBarComponent extends React.Component<Props, { sidebarVisible: boolean 
                             <div>Auxiliares</div>
                         </Link>
                     </Menu.Item>
+                    <Menu.Item name="logout" onClick={() => this.showConfirmLogout()}>
+                        <Icon name="sign out" size="big"/>
+                        <div>Cerrar sesión</div>
+                    </Menu.Item>
+                    <Confirm
+                        content="¿Seguro que quiere cerrar la sesión?"
+                        cancelButton="No"
+                        confirmButton="Sí, seguro"
+                        open={this.state.showConfirmLogout}
+                        onCancel={this.handleCancelLogout}
+                        onConfirm={this.handleConfirmLogout}
+                    />
                 </Sidebar>
                 <Sidebar.Pusher>
                     <Header>

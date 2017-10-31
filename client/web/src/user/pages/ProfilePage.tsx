@@ -11,6 +11,7 @@ import { getUser } from '../../core/util/CacheUtil';
 
 interface ProfileFormContainerStateProps extends UserStoreState {
     errors?: Array<string>;
+    history?: any;
 }
 
 interface ProfileFormContainerDispatchProps {
@@ -36,7 +37,7 @@ class ProfilePage extends React.Component<ProfileFormContainerProps, {}> {
 
         if (isLoading) {
             return (
-                <SideBarComponent>
+                <SideBarComponent history={this.props.history}>
                     <Dimmer active>
                         <Loader/>
                     </Dimmer>
@@ -45,7 +46,7 @@ class ProfilePage extends React.Component<ProfileFormContainerProps, {}> {
         }
 
         return (
-            <SideBarComponent>
+            <SideBarComponent history={this.props.history}>
                 <ProfileComponent user={user}/>
             </SideBarComponent>
         );

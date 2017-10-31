@@ -7,10 +7,12 @@ import './HomePage.css';
 import SideBarComponent from '../components/SideBarComponent';
 import { getUser } from '../../core/util/CacheUtil';
 import { Link } from 'react-router-dom';
-import { HOME, PROFILE } from '../../constants/routes';
+import { HOME, LOGIN, PROFILE } from '../../constants/routes';
+import { Redirect } from 'react-router';
 
 export interface Props {
     name: string;
+    history: any;
 }
 
 const userImage = require('../../resources/images/user_default.png');
@@ -48,13 +50,20 @@ export class HomePage extends React.Component<Props, {}> {
 
     render() {
         const user = getUser();
+
+        if (!user) {
+            return (
+                <Redirect to={LOGIN}/>
+            );
+        }
+
         return (
-            <SideBarComponent>
+            <SideBarComponent history={this.props.history}>
                 <Grid container={true} divided={true} stackable={true}>
                     <Grid.Column>
                         <Segment textAlign="center">
                             {this.renderProfileImage(user)}
-                            <div>{user.email}</div>
+                            <div>{user && user.email}</div>
                         </Segment>
                     </Grid.Column>
                 </Grid>

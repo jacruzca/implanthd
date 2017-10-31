@@ -1,5 +1,5 @@
 import * as Cookies from 'js-cookie';
-import { USER_COOKIE } from '../../constants/index';
+import { TOKEN_COOKIE, USER_COOKIE } from '../../constants/index';
 
 export const getUser = (): any | undefined => {
     const userStr = Cookies.get(USER_COOKIE);
@@ -8,4 +8,9 @@ export const getUser = (): any | undefined => {
     }
 
     return undefined;
+};
+
+export const logout = () => {
+    Cookies.remove(USER_COOKIE);
+    Cookies.remove(TOKEN_COOKIE);
 };
