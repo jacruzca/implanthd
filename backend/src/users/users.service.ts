@@ -32,7 +32,14 @@ export class UsersService {
     }
 
     async updateUser(id: string, user: UserModel): Promise<UserModel> {
-        return await this.userModel.update({_id: id}, user);
+        return await this.userModel.update({_id: id}, user).exec();
+    }
+
+    async updateUserProfileImage(id: string, image: string): Promise<UserModel> {
+        return await this.userModel.update(
+            {_id: id},
+            {$set: {profileImage: image}})
+            .exec();
     }
 
     async findAll(): Promise<UserModel[]> {

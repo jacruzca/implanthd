@@ -8,11 +8,15 @@ import { NotFoundException } from '../common/exceptions/notfound.exception';
 import { AuthSignUpDto } from './auth.signup.dto';
 import { AuthSignedDto } from './auth.signed.dto';
 import { UserTokenService } from '../users/user-token.service';
+import { UserMembershipService } from '../users/user-membership.service';
+import * as moment from 'moment';
 
 @Component()
 export class AuthService {
 
-    constructor(private readonly usersService: UsersService, private readonly userTokenService: UserTokenService) {
+    constructor(private readonly usersService: UsersService,
+                private readonly userTokenService: UserTokenService,
+                private readonly userMembershipService: UserMembershipService) {
     }
 
     async signIn(credentials: AuthSignInDto): Promise<AuthSignedDto> {
@@ -56,6 +60,12 @@ export class AuthService {
         const token = await jwt.sign(user, Constants.secretKey, {expiresIn});
 
         await this.userTokenService.createToken({user: userModel, token});
+
+        await this.userMembershipService.create({
+            user: userModel._id,
+            email: userModel.email,
+            membershipUntil: moment().add(1, 'month').toDate(),
+        });
 
         return {
             user: {

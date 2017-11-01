@@ -42,7 +42,7 @@ export const Date = (props: any) => {
             error={touched && error}
             {...props}
             {...props.input}
-            dateForm="DD/MM/YYYY"
+            dateFormat="DD/MM/YYYY"
             selected={props.input.value ? moment(props.input.value) : null}
         />
     );

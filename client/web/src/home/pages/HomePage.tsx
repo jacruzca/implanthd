@@ -1,13 +1,14 @@
 import * as React from 'react';
+import * as _ from 'lodash';
 import {
-    Grid, Segment, Image, Button,
+    Grid, Segment, Image, Button, Header, Message,
 } from 'semantic-ui-react';
 
 import './HomePage.css';
 import SideBarComponent from '../components/SideBarComponent';
 import { getUser } from '../../core/util/CacheUtil';
 import { Link } from 'react-router-dom';
-import { HOME, LOGIN, PROFILE } from '../../constants/routes';
+import { EDIT_PROFILE, HOME, LOGIN, PROFILE } from '../../constants/routes';
 import { Redirect } from 'react-router';
 
 export interface Props {
@@ -25,6 +26,8 @@ const icon6 = require('../../resources/images/icon_6.png');
 
 export class HomePage extends React.Component<Props, {}> {
 
+    shownProfileAlert: boolean;
+
     renderButton(icon: any, text: string, link: string) {
         return (
             <Link to={link}>
@@ -35,6 +38,28 @@ export class HomePage extends React.Component<Props, {}> {
             </Link>
         );
     }
+
+    renderProfileAlert = (user?: any) => {
+        if (user && _.size(user) < 21 && !this.shownProfileAlert) {
+            return (
+                <Grid.Column>
+                    <Message info onDismiss={() => {
+                        this.shownProfileAlert = true;
+                        this.forceUpdate();
+                    }}>
+                        <Message.Header>¡Alerta!</Message.Header>
+                        <p><Link to={EDIT_PROFILE}>Debes completar tu perfil</Link></p>
+                    </Message>
+                </Grid.Column>
+            );
+        }
+
+        return <div/>;
+    };
+
+    renderMembershipAlert = (user?: any) => {
+        return <div/>;
+    };
 
     renderProfileImage = (user?: any) => {
         if (user && user.profileImage) {
@@ -59,11 +84,16 @@ export class HomePage extends React.Component<Props, {}> {
 
         return (
             <SideBarComponent history={this.props.history}>
+                <Grid columns={3} container={true} stackable={true}>
+                    {this.renderProfileAlert(user)}
+                    {this.renderMembershipAlert(user)}
+                </Grid>
                 <Grid container={true} divided={true} stackable={true}>
                     <Grid.Column>
                         <Segment textAlign="center">
                             {this.renderProfileImage(user)}
-                            <div>{user && user.email}</div>
+                            <Header as='h3'>{user && user.firstName} {user && user.lastName}</Header>
+                            <Header as='h4'>{user && !user.firstName && user.email}</Header>
                         </Segment>
                     </Grid.Column>
                 </Grid>

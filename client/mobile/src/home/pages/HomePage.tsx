@@ -4,7 +4,7 @@ import { StyleSheet, Text, Image, View, Dimensions, Modal, AsyncStorage } from '
 import {
     Grid, Content, Header, Col, Container, Row, Button, Icon, Title, Body,
 } from 'native-base';
-import { LOGIN } from '../../constants/routes';
+import { HOME, LOGIN, PROFILE } from '../../constants/routes';
 import { PRIMARY_COLOR } from '../../constants/colors';
 import { TOKEN_COOKIE, USER_COOKIE } from '../../constants/index';
 import { LoginAction, logout } from '../../business/user/actions/LoginActions';
@@ -41,9 +41,10 @@ class HomePage extends React.Component<Props & HomePageDispatchProps, { signOutM
         }
     }
 
-    displayButton = (icon: any, text: string, imageSize: number) => {
+    displayButton = (icon: any, text: string, imageSize: number, link: string) => {
         return (
-            <Button transparent style={{width: imageSize, height: imageSize}}>
+            <Button transparent style={{width: imageSize, height: imageSize}}
+                    onPress={() => this.props.history.push(link)}>
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={icon} style={{width: imageSize}}/>
                     <Text style={{textAlign: 'center', color: PRIMARY_COLOR}}>{text}</Text>
@@ -61,7 +62,6 @@ class HomePage extends React.Component<Props & HomePageDispatchProps, { signOutM
         await AsyncStorage.removeItem(TOKEN_COOKIE);
         await AsyncStorage.removeItem(USER_COOKIE);
         this.props.history.replace(LOGIN);
-        console.log('Replaced!');
         this.setSignOutModalVisible(false)
     }
 
@@ -117,26 +117,26 @@ class HomePage extends React.Component<Props & HomePageDispatchProps, { signOutM
                     <Grid>
                         <Row style={styles.row}>
                             <Col style={StyleSheet.flatten([styles.column, {height: columnSize, width: columnSize,}])}>
-                                {this.displayButton(icon1, 'Perfil', imageSize)}
+                                {this.displayButton(icon1, 'Perfil', imageSize, PROFILE)}
                             </Col>
                             <Col style={StyleSheet.flatten([styles.column, {height: columnSize, width: columnSize,}])}>
-                                {this.displayButton(icon2, 'Crear Historia', imageSize)}
+                                {this.displayButton(icon2, 'Crear Historia', imageSize, HOME)}
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col style={[styles.column, {height: columnSize, width: columnSize}]}>
-                                {this.displayButton(icon3, 'Inventario', imageSize)}
+                                {this.displayButton(icon3, 'Inventario', imageSize, HOME)}
                             </Col>
                             <Col style={[styles.column, {height: columnSize, width: columnSize}]}>
-                                {this.displayButton(icon4, 'Agenda', imageSize)}
+                                {this.displayButton(icon4, 'Agenda', imageSize, HOME)}
                             </Col>
                         </Row>
                         <Row style={styles.row}>
                             <Col style={[styles.column, {height: columnSize, width: columnSize}]}>
-                                {this.displayButton(icon5, 'Historias Clínicas', imageSize)}
+                                {this.displayButton(icon5, 'Historias Clínicas', imageSize, HOME)}
                             </Col>
                             <Col style={[styles.column, {height: columnSize}]}>
-                                {this.displayButton(icon6, 'Auxiliar', imageSize)}
+                                {this.displayButton(icon6, 'Auxiliar', imageSize, HOME)}
                             </Col>
                         </Row>
                         <Row style={styles.row}>

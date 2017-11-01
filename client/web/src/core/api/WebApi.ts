@@ -31,8 +31,8 @@ export default class WebApi implements ApiInterface {
         return this.axiosInstance.get(endpoint, {params: qs});
     }
 
-    post(endpoint: string, data: object): Promise<any> {
-        return this.axiosInstance.post(endpoint, data);
+    post(endpoint: string, data: object, config?: any): Promise<any> {
+        return this.axiosInstance.post(endpoint, data, config);
     }
 
     put(endpoint: string, data: object): Promise<any> {

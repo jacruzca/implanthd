@@ -18,4 +18,23 @@ export default class UserApi extends ApiAbstract {
         return this.getApi().get(`${this.USERS}/${id}`);
     }
 
+    updateUser = (id: string, user: any) => {
+        return this.getApi().put(`${this.USERS}/${id}`, user);
+    }
+
+    updateUserProfileImage = (id: string, image: any) => {
+        let data = new FormData();
+        data.append('firstName', image.firstName);
+        data.append('lastName', image.lastName);
+        data.append('questionKey', image.questionKey);
+        data.append('imageIndex', image.imageIndex.toString());
+        data.append('image', image.image);
+
+        const config = {
+            'Content-Type': `multipart/form-data; boundary=b/QeEbFgqK9PCZo4T/eXv7f.T74SHd5MxCZ846AsTz-yNV0xrRR_Zks4fkNMCzJck9ZE8o`,
+        };
+
+        return this.getApi().post(`${this.USERS}/${id}`, data, config);
+    }
+
 }

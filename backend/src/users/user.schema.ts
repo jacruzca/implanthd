@@ -22,6 +22,8 @@ export const UserSchema = new mongoose.Schema({
     postgraduateTitle: String,
     postgraduateInstitution: String,
     postgraduateTitleDate: String,
+    profileImage: String,
+    created: {type: Date, default: Date.now},
 });
 
 UserSchema.plugin(uniqueValidator);

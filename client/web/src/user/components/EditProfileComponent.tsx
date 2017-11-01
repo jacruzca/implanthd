@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Segment, Form, Header, Button } from 'semantic-ui-react';
-import { Checkbox, Date, Dropdown, Input } from '../../core/components/FormComponents';
+import { Date, Dropdown, Input } from '../../core/components/FormComponents';
 
 import './EditProfileComponent.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,7 +18,7 @@ interface ProfileComponentProps {
 
 const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props) => {
 
-    const {user, isProfessional} = props;
+    const {user} = props;
 
     console.log(user);
 
@@ -183,18 +183,7 @@ const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props)
                         </Form.Group>
                         <Segment>
                             <Header>Estudios de Pregrado</Header>
-                            <Form.Field>
-                                <Field
-                                    name="isProfessional"
-                                    component={Checkbox}
-                                    {...{
-                                        inline: true,
-                                        toggle: true,
-                                        label: 'Soy Profesional titulado',
-                                    }}
-                                />
-                            </Form.Field>
-                            {isProfessional && <Form.Group widths="equal">
+                            <Form.Group widths="equal">
                                 <Form.Field>
                                     <label>Título</label>
                                     <Field
@@ -231,7 +220,7 @@ const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props)
                                         }}
                                     />
                                 </Form.Field>
-                            </Form.Group>}
+                            </Form.Group>
                         </Segment>
                         <Segment>
                             <Header>Estudios de Postgrado</Header>

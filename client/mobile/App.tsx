@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from './src/business/Store';
 import { NativeRouter, Route } from 'react-router-native';
 import HomePage from './src/home/pages/HomePage';
-import { HOME, LOGIN, SIGN_UP } from './src/constants/routes';
+import { EDIT_PROFILE, HOME, LOGIN, PROFILE, SIGN_UP } from './src/constants/routes';
 import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
 import LoginPage from './src/user/pages/LoginPage';
 import MobileApi from './src/core/api/MobileApi';
@@ -17,6 +17,8 @@ import { TOKEN_COOKIE } from './src/constants/index';
 import { Store } from 'redux';
 import { RootState } from './src/business/Reducers';
 import SignUpPage from './src/user/pages/SignUpPage';
+import ProfilePage from './src/user/pages/ProfilePage';
+import EditProfilePage from './src/user/pages/EditProfilePage';
 
 export default class App extends React.Component<{}, { storeReady: boolean, token?: string }> {
 
@@ -47,6 +49,8 @@ export default class App extends React.Component<{}, { storeReady: boolean, toke
                 <NativeRouter>
                     <View style={styles.container}>
                         <Route exact path={HOME} component={HomePage}/>
+                        <Route exact path={PROFILE} component={ProfilePage}/>
+                        <Route exact path={EDIT_PROFILE} component={EditProfilePage}/>
                         <Route exact path={LOGIN} component={LoginPage}/>
                         <Route exact path={SIGN_UP} component={SignUpPage}/>
                     </View>

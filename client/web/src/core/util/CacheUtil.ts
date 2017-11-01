@@ -10,6 +10,10 @@ export const getUser = (): any | undefined => {
     return undefined;
 };
 
+export const setUser = (user: any) => {
+    Cookies.set(USER_COOKIE, user);
+};
+
 export const logout = () => {
     Cookies.remove(USER_COOKIE);
     Cookies.remove(TOKEN_COOKIE);

@@ -1,4 +1,4 @@
-import {Document} from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface UserModel extends Document {
     readonly email: string;
@@ -21,4 +21,6 @@ export interface UserModel extends Document {
     readonly postgraduateTitle: string;
     readonly postgraduateInstitution: string;
     readonly postgraduateTitleDate: string;
+    readonly profileImage: string;
+    readonly created: Date;
 }
