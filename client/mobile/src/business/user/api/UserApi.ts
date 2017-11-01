@@ -27,7 +27,8 @@ export default class UserApi extends ApiAbstract {
         data.append('image', image);
 
         const config = {
-            'Content-Type': `multipart/form-data; boundary=b/QeEbFgqK9PCZo4T/eXv7f.T74SHd5MxCZ846AsTz-yNV0xrRR_Zks4fkNMCzJck9ZE8o`,
+            'Content-Type':
+                `multipart/form-data; boundary=b/QeEbFgqK9PCZo4T/eXv7f.T74SHd5MxCZ846AsTz-yNV0xrRR_Zks4fkNMCzJck9ZE8o`,
         };
 
         return this.getApi().post(`${this.USERS}/${id}/image`, data, config);

@@ -20,8 +20,6 @@ const EditProfileComponent: React.ComponentType<ProfileComponentProps> = (props)
 
     const {user} = props;
 
-    console.log(user);
-
     return (
         <Grid container={true} stackable={true}>
             <Grid.Column>

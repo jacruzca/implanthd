@@ -35,7 +35,6 @@ class ProfilePage extends React.Component<ProfileFormContainerProps, {}> {
     }
 
     componentWillReceiveProps(nextProps: ProfileFormContainerProps) {
-        console.log(this.props.successEditProfileImage, nextProps.successEditProfileImage);
         if (!this.props.successEditProfileImage && nextProps.successEditProfileImage) {
             window.location.reload();
         }
@@ -44,7 +43,7 @@ class ProfilePage extends React.Component<ProfileFormContainerProps, {}> {
     uploadCallback = (image: any) => {
         const user = getUser();
         this.props.editImageProfile(user._id, image);
-    };
+    }
 
     render() {
 
@@ -53,7 +52,7 @@ class ProfilePage extends React.Component<ProfileFormContainerProps, {}> {
         if (isLoading) {
             return (
                 <SideBarComponent history={this.props.history}>
-                    <Dimmer active>
+                    <Dimmer active={true}>
                         <Loader/>
                     </Dimmer>
                 </SideBarComponent>

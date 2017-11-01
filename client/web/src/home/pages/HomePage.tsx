@@ -43,10 +43,13 @@ export class HomePage extends React.Component<Props, {}> {
         if (user && _.size(user) < 21 && !this.shownProfileAlert) {
             return (
                 <Grid.Column>
-                    <Message info onDismiss={() => {
-                        this.shownProfileAlert = true;
-                        this.forceUpdate();
-                    }}>
+                    <Message
+                        info={true}
+                        onDismiss={() => {
+                            this.shownProfileAlert = true;
+                            this.forceUpdate();
+                        }}
+                    >
                         <Message.Header>¡Alerta!</Message.Header>
                         <p><Link to={EDIT_PROFILE}>Debes completar tu perfil</Link></p>
                     </Message>
@@ -55,16 +58,16 @@ export class HomePage extends React.Component<Props, {}> {
         }
 
         return <div/>;
-    };
+    }
 
     renderMembershipAlert = (user?: any) => {
         return <div/>;
-    };
+    }
 
     renderProfileImage = (user?: any) => {
         if (user && user.profileImage) {
             return (
-                <Image src={user.profileImage} avatar={true}/>
+                <Image size="medium" src={user.profileImage} avatar={true}/>
             );
         }
 
@@ -92,8 +95,8 @@ export class HomePage extends React.Component<Props, {}> {
                     <Grid.Column>
                         <Segment textAlign="center">
                             {this.renderProfileImage(user)}
-                            <Header as='h3'>{user && user.firstName} {user && user.lastName}</Header>
-                            <Header as='h4'>{user && !user.firstName && user.email}</Header>
+                            <Header as="h3">{user && user.firstName} {user && user.lastName}</Header>
+                            <Header as="h4">{user && !user.firstName && user.email}</Header>
                         </Segment>
                     </Grid.Column>
                 </Grid>
