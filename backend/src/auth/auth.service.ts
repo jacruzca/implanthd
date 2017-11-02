@@ -42,6 +42,8 @@ export class AuthService {
             user: {
                 _id: userModel._id,
                 email: userModel.email,
+                firstName: userModel.firstName,
+                lastName: userModel.lastName,
             },
             token: {
                 expiresIn,
@@ -71,6 +73,8 @@ export class AuthService {
             user: {
                 _id: userModel._id,
                 email: userModel.email,
+                firstName: userModel.firstName,
+                lastName: userModel.lastName,
             },
             token: {
                 expiresIn,

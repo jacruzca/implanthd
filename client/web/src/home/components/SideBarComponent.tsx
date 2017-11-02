@@ -30,8 +30,8 @@ class SideBarComponent extends React.Component<Props, { sidebarVisible: boolean,
     showConfirmLogout = () => this.setState({showConfirmLogout: true});
     handleConfirmLogout = () => {
         logout();
-        this.props.history.replace(LOGIN);
         this.setState({showConfirmLogout: false});
+        this.props.history.replace(LOGIN);
     }
     handleCancelLogout = () => this.setState({showConfirmLogout: false});
 

@@ -20,6 +20,7 @@ export class JwtStrategy extends Strategy {
     }
 
     public async verify(req, payload, done) {
+        console.log('Pay!', payload);
         const isValid = await this.authService.validateUser(payload);
         if (!isValid) {
             console.log(`*** INVALID authentication for user: ${payload.email}`);

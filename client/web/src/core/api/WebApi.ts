@@ -25,6 +25,15 @@ export default class WebApi implements ApiInterface {
         }
 
         this.axiosInstance = Axios.create(config);
+
+        //set auth headers to axios instance
+        this.axiosInstance.interceptors.request.use((config: any) => {
+            const token = Cookies.get(TOKEN_COOKIE);
+            if (token && token.length > 0) {
+                config.headers.Authorization = `bearer ${token}`;
+            }
+            return config;
+        });
     }
 
     get(endpoint: string, qs: any): Promise<any> {

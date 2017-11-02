@@ -60,7 +60,9 @@ class EditProfilePage extends React.Component<EditProfileFormContainerProps, {}>
     componentWillMount() {
         if (!this.props.user) {
             const user = getUser();
-            this.props.userCheck(user._id);
+            if(user._id) {
+                this.props.userCheck(user._id);
+            }
         }
     }
 

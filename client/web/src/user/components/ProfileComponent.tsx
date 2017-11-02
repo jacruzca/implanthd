@@ -35,7 +35,12 @@ const renderProfileImage = (user?: any, uploadCallback?: Function) => {
     }
 
     return (
-        <Image size="small" src={userImage} avatar={true}/>
+        <div>
+            <Dropzone style={{}} onDrop={(files: any) => onDrop(files, uploadCallback)}>
+                <Icon name="edit" style={{float: 'right'}}/>
+                <Image size="small" src={userImage} avatar={true}/>
+            </Dropzone>
+        </div>
     );
 };
 

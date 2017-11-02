@@ -7,7 +7,7 @@ import SideBarComponent from '../../home/components/SideBarComponent';
 import { UserAction, userCheck } from '../../business/user/actions/UserActions';
 import { UserStoreState } from '../../business/user/types/UserTypes';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { getUser, setUser } from '../../core/util/CacheUtil';
+import { getUser } from '../../core/util/CacheUtil';
 import { editImageProfile, EditUserAction } from '../../business/user/actions/EditUserActions';
 import { EditUserStoreState } from '../../business/user/types/EditUserTypes';
 
@@ -58,8 +58,6 @@ class ProfilePage extends React.Component<ProfileFormContainerProps, {}> {
                 </SideBarComponent>
             );
         }
-
-        setUser(user);
 
         return (
             <SideBarComponent history={this.props.history}>

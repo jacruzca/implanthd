@@ -4,7 +4,11 @@ import { TOKEN_COOKIE, USER_COOKIE } from '../../constants/index';
 export const getUser = (): any | undefined => {
     const userStr = Cookies.get(USER_COOKIE);
     if (userStr) {
-        return JSON.parse(userStr);
+        try {
+            return JSON.parse(userStr);
+        } catch (e) {
+            return undefined;
+        }
     }
 
     return undefined;
